@@ -21,6 +21,20 @@
     a { color: inherit; text-decoration: none; cursor: none; }
     button { cursor: none; font-family: inherit; }
 
+    /* ─── Mouse trail ─── */
+    .m-trail {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9990;
+      transform: translate(-50%,-50%);
+      animation: trailFade 0.9s ease forwards;
+    }
+    @keyframes trailFade {
+      0%   { width: 40px; height: 40px; opacity: 0.45; }
+      100% { width: 110px; height: 110px; opacity: 0; }
+    }
+
     /* ─── Custom cursor ─── */
     #cur-dot {
       width: 8px; height: 8px;
@@ -296,7 +310,7 @@
       font-size: 0.65rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #999;
+      color: #c0623a;
       margin-bottom: 4rem;
       display: flex;
       align-items: center;
@@ -306,7 +320,7 @@
       content: '';
       display: inline-block;
       width: 24px; height: 1px;
-      background: #aaa;
+      background: #c0623a;
     }
 
     /* ─── PROJECTS ─── */
@@ -518,9 +532,12 @@
       text-align: center;
       background: rgba(237,233,227,0.5);
       backdrop-filter: blur(8px);
-      transition: transform .4s cubic-bezier(.43,.195,.02,1), background .3s;
+      transition: transform .4s cubic-bezier(.43,.195,.02,1), background .3s, border-color .3s;
       position: relative;
     }
+    .milestone-circle:nth-child(1) { border-color: rgba(192,98,58,0.35); }
+    .milestone-circle:nth-child(2) { border-color: rgba(100,160,220,0.35); }
+    .milestone-circle:nth-child(3) { border-color: rgba(80,180,120,0.35); }
     .milestone-circle:hover { transform: scale(1.05); background: rgba(237,233,227,0.85); }
     .milestone-lbl {
       font-size: 0.58rem;
@@ -566,13 +583,13 @@
       font-size: 0.65rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #999;
+      color: #c0623a;
       margin-bottom: 2rem;
       display: flex;
       align-items: center;
       gap: 0.75rem;
     }
-    .exp-section-title::before { content: ''; display: inline-block; width: 24px; height: 1px; background: #aaa; }
+    .exp-section-title::before { content: ''; display: inline-block; width: 24px; height: 1px; background: #c0623a; }
     .exp-list { display: flex; flex-direction: column; }
     .exp-row {
       display: grid;
@@ -728,6 +745,51 @@
       padding-top: 0.15rem;
     }
 
+    /* ─── Social bar ─── */
+    .social-bar {
+      border-top: 1px solid rgba(20,20,20,0.1);
+      padding: 5rem 2.5rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .social-bar-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #c0623a;
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .social-bar-label::before { content: ''; display: inline-block; width: 24px; height: 1px; background: #c0623a; }
+    .social-icons {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .soc-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid rgba(20,20,20,0.14);
+      border-radius: 100px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #555;
+      transition: all .35s cubic-bezier(.43,.195,.02,1);
+      background: rgba(237,233,227,0.5);
+      backdrop-filter: blur(8px);
+    }
+    .soc-btn svg { width: 16px; height: 16px; flex-shrink: 0; transition: transform .35s cubic-bezier(.43,.195,.02,1); }
+    .soc-btn:hover { background: #141414; color: #ede9e3; border-color: #141414; transform: translateY(-3px); }
+    .soc-btn:hover svg { transform: scale(1.15); }
+    .soc-btn:hover svg path, .soc-btn:hover svg rect, .soc-btn:hover svg circle { fill: #ede9e3; }
+
     /* ─── Footer ─── */
     footer {
       padding: 1.75rem 2.5rem;
@@ -857,37 +919,37 @@
         </a>
 
         <!-- Job Search Agent — text circle -->
-        <div class="proj-circle txt-circle pc-2 g-up" style="animation-delay:.1s">
+        <a href="https://linkedin.com/in/decsmarketing" target="_blank" class="proj-circle txt-circle pc-2 g-up" style="animation-delay:.1s">
           <span class="dot-accent br"></span>
           <div class="proj-num">N. 02</div>
           <div class="proj-name">Job Search<br />Agent</div>
           <div class="proj-year">Y. 2024</div>
-        </div>
+        </a>
 
         <!-- Soul Candle — small img circle -->
-        <div class="proj-circle img-circle pc-3 g-up" style="animation-delay:.2s">
+        <a href="https://linkedin.com/in/decsmarketing" target="_blank" class="proj-circle img-circle pc-3 g-up" style="animation-delay:.2s">
           <div class="grad-circle grad-candle">&#x1F56F;&#xFE0F;</div>
-        </div>
+        </a>
 
         <!-- Forex — text circle -->
-        <div class="proj-circle txt-circle pc-4 g-up" style="animation-delay:.15s">
+        <a href="https://linkedin.com/in/decsmarketing" target="_blank" class="proj-circle txt-circle pc-4 g-up" style="animation-delay:.15s">
           <div class="proj-num">N. 04</div>
           <div class="proj-name">Forex sin<br />tanta raya</div>
           <div class="proj-year">Y. 2024</div>
-        </div>
+        </a>
 
         <!-- CG Audit text circle -->
-        <div class="proj-circle txt-circle pc-5 g-up" style="animation-delay:.05s">
+        <a href="https://cg-audit.onrender.com" target="_blank" class="proj-circle txt-circle pc-5 g-up" style="animation-delay:.05s">
           <span class="dot-accent tl"></span>
           <div class="proj-num">N. 01</div>
           <div class="proj-name">C&amp;G<br />Audit</div>
           <div class="proj-year">Y. 2024</div>
-        </div>
+        </a>
 
         <!-- Forex img circle -->
-        <div class="proj-circle img-circle pc-6 g-up" style="animation-delay:.25s">
+        <a href="https://linkedin.com/in/decsmarketing" target="_blank" class="proj-circle img-circle pc-6 g-up" style="animation-delay:.25s">
           <div class="grad-circle grad-forex">&#x1F4C8;</div>
-        </div>
+        </a>
 
       </div>
 
@@ -1123,6 +1185,58 @@
     </div>
   </section>
 
+  <!-- Social bar -->
+  <div class="social-bar">
+    <div class="social-bar-label">Find me on</div>
+    <div class="social-icons">
+
+      <!-- LinkedIn -->
+      <a href="https://linkedin.com/in/decsmarketing" target="_blank" class="soc-btn">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" fill="#555"/>
+          <rect x="2" y="9" width="4" height="12" fill="#555"/>
+          <circle cx="4" cy="4" r="2" fill="#555"/>
+        </svg>
+        LinkedIn
+      </a>
+
+      <!-- Instagram -->
+      <a href="https://instagram.com/" target="_blank" class="soc-btn">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="#555" stroke-width="2" fill="none"/>
+          <circle cx="12" cy="12" r="4" stroke="#555" stroke-width="2" fill="none"/>
+          <circle cx="17.5" cy="6.5" r="1.5" fill="#555"/>
+        </svg>
+        Instagram
+      </a>
+
+      <!-- TikTok -->
+      <a href="https://tiktok.com/" target="_blank" class="soc-btn">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z" fill="#555"/>
+        </svg>
+        TikTok
+      </a>
+
+      <!-- GitHub -->
+      <a href="https://github.com/Decs2691" target="_blank" class="soc-btn">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" fill="#555"/>
+        </svg>
+        GitHub
+      </a>
+
+      <!-- Canva Portfolio -->
+      <a href="https://decs2026.my.canva.site" target="_blank" class="soc-btn">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Portfolio
+      </a>
+
+    </div>
+  </div>
+
   <footer>
     <p class="foot-l">&copy; 2026 Daniel Cantor &middot; Digital Marketing Strategist</p>
     <div class="foot-langs">
@@ -1147,6 +1261,28 @@
     }
     updateClock();
     setInterval(updateClock, 60000);
+
+    /* ── Mouse trail ── */
+    const trailColors = [
+      'radial-gradient(circle, rgba(224,112,72,0.4) 0%, transparent 70%)',
+      'radial-gradient(circle, rgba(240,170,100,0.35) 0%, transparent 70%)',
+      'radial-gradient(circle, rgba(200,130,180,0.3) 0%, transparent 70%)',
+    ];
+    let tColorIdx = 0;
+    let lastTrailTime = 0;
+    document.addEventListener('mousemove', e => {
+      const now = Date.now();
+      if (now - lastTrailTime < 40) return; // throttle
+      lastTrailTime = now;
+      const t = document.createElement('div');
+      t.className = 'm-trail';
+      t.style.left = e.clientX + 'px';
+      t.style.top  = e.clientY + 'px';
+      t.style.background = trailColors[tColorIdx % trailColors.length];
+      tColorIdx++;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 900);
+    });
 
     /* ── Custom cursor ── */
     const dot  = document.getElementById('cur-dot');

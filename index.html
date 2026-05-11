@@ -1250,6 +1250,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <script>
+    // Fuerza scroll al top siempre que carga la página
+    if (history.scrollRestoration) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+
     gsap.registerPlugin(ScrollTrigger);
 
     /* ── Clock ── */

@@ -6,556 +6,654 @@
   <title>Daniel Cantor — Digital Marketing Strategist</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,200;1,9..40,300&display=swap" rel="stylesheet" />
+
   <style>
-    /* ── CSS Variables ── */
+    /* ─── Variables ─── */
     :root {
-      --bg: #e8e4de;
-      --bg-card: #dedad3;
-      --text: #17191a;
-      --text-muted: #6b6b6b;
-      --border: rgba(23,25,26,0.12);
-      --tag-bg: rgba(23,25,26,0.07);
-      --tag-text: #17191a;
-      --nav-bg: rgba(232,228,222,0.85);
+      --bg:        #e7e4df;
+      --bg-2:      #dedad3;
+      --text:      #17191a;
+      --muted:     #757575;
+      --border:    rgba(23,25,26,0.11);
+      --tag-bg:    rgba(23,25,26,0.07);
+      --nav-bg:    rgba(231,228,223,0.82);
     }
     [data-theme="dark"] {
-      --bg: #1a1a1a;
-      --bg-card: #242424;
-      --text: #e0ddd8;
-      --text-muted: #888;
-      --border: rgba(255,255,255,0.1);
-      --tag-bg: rgba(255,255,255,0.07);
-      --tag-text: #c8c5c0;
-      --nav-bg: rgba(26,26,26,0.85);
+      --bg:        #1e1e1e;
+      --bg-2:      #272727;
+      --text:      #c8c5c0;
+      --muted:     #686868;
+      --border:    rgba(200,197,192,0.10);
+      --tag-bg:    rgba(200,197,192,0.07);
+      --nav-bg:    rgba(30,30,30,0.82);
     }
 
-    /* ── Reset ── */
+    /* ─── Noise overlay ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px;
+      animation: noiseAnim 0.5s steps(2) infinite;
+    }
+    [data-theme="dark"] body::before { opacity: 0.055; }
+    @keyframes noiseAnim {
+      0%   { transform: translate(0, 0); }
+      25%  { transform: translate(-2%, -3%); }
+      50%  { transform: translate(3%, 1%); }
+      75%  { transform: translate(-1%, 4%); }
+      100% { transform: translate(2%, -2%); }
+    }
+
+    /* ─── Custom Cursor ─── */
+    .cursor-dot {
+      width: 6px; height: 6px;
+      background: var(--text);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 10000;
+      transform: translate(-50%, -50%);
+      transition: background 0.3s, transform 0.15s, width 0.3s, height 0.3s;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid var(--text);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: border-color 0.3s, width 0.4s cubic-bezier(.43,.195,.02,1), height 0.4s cubic-bezier(.43,.195,.02,1), opacity 0.3s;
+      opacity: 0.6;
+    }
+    body.cursor-hover .cursor-dot { width: 10px; height: 10px; opacity: 0.5; }
+    body.cursor-hover .cursor-ring { width: 56px; height: 56px; opacity: 0.3; }
+
+    /* ─── Reset ─── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
       font-family: 'DM Sans', -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text);
-      transition: background 0.4s, color 0.4s;
       overflow-x: hidden;
+      cursor: none;
     }
-    a { color: inherit; text-decoration: none; }
+    a { color: inherit; text-decoration: none; cursor: none; }
+    button { cursor: none; }
 
-    /* ── Nav ── */
+    /* ─── Loader ─── */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 8000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .loader-name {
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .loader-bar-wrap {
+      width: 120px;
+      height: 1px;
+      background: var(--border);
+      overflow: hidden;
+    }
+    .loader-bar {
+      height: 100%;
+      background: var(--text);
+      width: 0%;
+      transition: width 0.05s linear;
+    }
+
+    /* ─── Navigation ─── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 100;
+      z-index: 500;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.25rem 2.5rem;
+      padding: 1.4rem 3rem;
       background: var(--nav-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
-      transition: background 0.4s;
+      transition: background 0.5s;
     }
     .nav-logo {
-      font-size: 0.88rem;
+      font-size: 0.82rem;
       font-weight: 600;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
     }
     .nav-links {
       display: flex;
-      gap: 2rem;
+      gap: 2.5rem;
       list-style: none;
       align-items: center;
     }
     .nav-links a {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 500;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
-      color: var(--text-muted);
+      color: var(--muted);
       position: relative;
-      transition: color 0.25s;
+      transition: color 0.3s;
     }
+    /* Right-to-left underline — Federico Pian style */
     .nav-links a::after {
       content: '';
       position: absolute;
-      bottom: -3px; left: 0;
+      bottom: -2px; left: 0;
       width: 100%; height: 1px;
       background: var(--text);
       transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s cubic-bezier(.43,.195,.02,1);
+      transform-origin: 100% 100%;
+      transition: transform 0.5s cubic-bezier(.43,.195,.02,1);
     }
     .nav-links a:hover { color: var(--text); }
-    .nav-links a:hover::after { transform: scaleX(1); }
-    .theme-toggle {
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+      transform-origin: 0% 100%;
+    }
+    .theme-btn {
       background: none;
       border: 1px solid var(--border);
       color: var(--text);
-      width: 36px; height: 36px;
+      width: 34px; height: 34px;
       border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      transition: background 0.25s;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      transition: background 0.25s, border-color 0.25s;
     }
-    .theme-toggle:hover { background: var(--tag-bg); }
+    .theme-btn:hover { background: var(--tag-bg); }
 
-    /* ── Layout ── */
-    .container { max-width: 1160px; margin: 0 auto; }
-    section { padding: 7rem 2.5rem; }
-
-    /* ── Hero ── */
+    /* ─── Hero ─── */
     #hero {
       min-height: 100vh;
-      padding: 0 2.5rem 6rem;
+      padding: 0 3rem;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
+      padding-bottom: 5rem;
       border-bottom: 1px solid var(--border);
       position: relative;
+      overflow: hidden;
     }
-    .hero-inner { max-width: 1160px; margin: 0 auto; width: 100%; }
+    .hero-inner { max-width: 1200px; margin: 0 auto; width: 100%; }
     .hero-label {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 500;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 2.5rem;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.1s forwards;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      overflow: hidden;
     }
+    .hero-label span { display: block; }
     .hero-name {
-      font-size: clamp(3.8rem, 10vw, 10rem);
-      font-weight: 300;
-      line-height: 0.93;
-      letter-spacing: -0.035em;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.25s forwards;
+      font-size: clamp(4.5rem, 11vw, 11.5rem);
+      font-weight: 200;
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      overflow: hidden;
+      margin-bottom: 0.1em;
     }
-    .hero-name em { font-style: italic; font-weight: 300; }
+    .hero-name .line { overflow: hidden; display: block; }
+    .hero-name .line-inner { display: block; }
+    .hero-name em { font-style: italic; font-weight: 200; }
     .hero-bottom {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
       gap: 2rem;
-      margin-top: 3.5rem;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.45s forwards;
+      margin-top: 3rem;
+      overflow: hidden;
     }
     .hero-desc {
-      max-width: 400px;
-      font-size: 1rem;
+      max-width: 380px;
+      font-size: 0.95rem;
       font-weight: 300;
-      line-height: 1.7;
-      color: var(--text-muted);
+      line-height: 1.75;
+      color: var(--muted);
     }
-    .hero-cta { display: flex; gap: 0.75rem; flex-shrink: 0; flex-wrap: wrap; }
+    .hero-cta { display: flex; gap: 0.75rem; flex-shrink: 0; }
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      padding: 0.8rem 1.5rem;
+      padding: 0.75rem 1.5rem;
       border-radius: 100px;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 500;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
-      transition: all 0.3s cubic-bezier(.43,.195,.02,1);
-      cursor: pointer;
-      border: none;
+      transition: all 0.4s cubic-bezier(.43,.195,.02,1);
     }
-    .btn-primary {
-      background: var(--text);
-      color: var(--bg);
-    }
-    .btn-primary:hover { opacity: 0.8; transform: translateY(-2px); }
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border) !important;
-    }
-    .btn-outline:hover { background: var(--tag-bg); transform: translateY(-2px); }
-    .hero-scroll {
+    .btn-primary { background: var(--text); color: var(--bg); }
+    .btn-primary:hover { opacity: 0.75; transform: translateY(-3px); }
+    .btn-outline { border: 1px solid var(--border); color: var(--text); }
+    .btn-outline:hover { background: var(--tag-bg); transform: translateY(-3px); }
+
+    /* Scroll indicator */
+    .hero-scroll-line {
       position: absolute;
-      bottom: 2.5rem;
-      right: 2.5rem;
-      font-size: 0.7rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      writing-mode: vertical-rl;
+      bottom: 2rem; right: 3rem;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 0.75rem;
-      opacity: 0;
-      animation: fadeIn 1s 1s forwards;
+      gap: 0.6rem;
     }
-    .hero-scroll::before {
-      content: '';
+    .scroll-text {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      writing-mode: vertical-rl;
+    }
+    .scroll-line {
       width: 1px;
-      height: 50px;
-      background: var(--text-muted);
-      animation: lineGrow 0.8s 1.4s both;
+      height: 60px;
+      background: var(--muted);
       transform-origin: top;
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0%   { transform: scaleY(0); opacity: 0; transform-origin: top; }
+      50%  { transform: scaleY(1); opacity: 1; }
+      100% { transform: scaleY(0); opacity: 0; transform-origin: bottom; }
     }
 
-    /* ── Section header ── */
+    /* ─── Sections ─── */
+    .section-wrap { padding: 7rem 3rem; max-width: 1200px; margin: 0 auto; }
+    .section-full { padding: 7rem 3rem; border-top: 1px solid var(--border); }
     .section-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4rem;
+      align-items: flex-end;
+      margin-bottom: 5rem;
       padding-bottom: 1.5rem;
       border-bottom: 1px solid var(--border);
-      flex-wrap: wrap;
       gap: 1rem;
     }
-    .section-num {
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
+    .s-num { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .s-title {
+      font-size: clamp(2.2rem, 5vw, 4.5rem);
+      font-weight: 200;
+      letter-spacing: -0.03em;
+      line-height: 1;
     }
-    .section-title {
-      font-size: clamp(2rem, 4.5vw, 3.8rem);
-      font-weight: 300;
-      letter-spacing: -0.025em;
-      line-height: 1.05;
-    }
-    .section-title em { font-style: italic; }
+    .s-title em { font-style: italic; }
 
-    /* ── About ── */
+    /* ─── About ─── */
     .about-grid {
       display: grid;
-      grid-template-columns: 1fr 1.3fr;
-      gap: 5rem;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 6rem;
       align-items: start;
     }
-    .about-stats {
+    .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    .stat-card {
-      padding: 1.5rem;
+      gap: 1px;
+      background: var(--border);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      background: var(--bg-card);
-      transition: transform 0.35s cubic-bezier(.43,.195,.02,1);
+      border-radius: 18px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
     }
-    .stat-card:hover { transform: translateY(-4px); }
-    .stat-number {
-      font-size: 2.6rem;
-      font-weight: 300;
-      letter-spacing: -0.04em;
+    .stat-cell {
+      padding: 2rem 1.5rem;
+      background: var(--bg-2, var(--bg));
+      background: var(--bg);
+      transition: background 0.3s;
+    }
+    .stat-cell:hover { background: var(--bg-2); }
+    .stat-num {
+      font-size: 3rem;
+      font-weight: 200;
+      letter-spacing: -0.05em;
       line-height: 1;
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.4rem;
+      font-variant-numeric: tabular-nums;
     }
-    .stat-label { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.03em; }
-    .about-badge {
+    .stat-lbl { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.03em; line-height: 1.4; }
+    .about-location {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      padding: 0.6rem 1rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      padding: 0.55rem 1rem;
       border: 1px solid var(--border);
       border-radius: 100px;
-      background: var(--bg-card);
     }
-    .about-text {
+    .about-body {
       font-size: 1rem;
       font-weight: 300;
-      line-height: 1.8;
-      color: var(--text-muted);
+      line-height: 1.85;
+      color: var(--muted);
     }
-    .about-text p + p { margin-top: 1.25rem; }
-    .about-text strong { color: var(--text); font-weight: 500; }
-    .about-action { margin-top: 2.5rem; }
+    .about-body p + p { margin-top: 1.3rem; }
+    .about-body strong { color: var(--text); font-weight: 500; }
+    .about-cta { margin-top: 2.5rem; }
 
-    /* ── Experience ── */
-    .exp-item {
+    /* ─── Experience ─── */
+    .exp-row {
       display: grid;
-      grid-template-columns: 200px 1fr auto;
-      gap: 2.5rem;
-      padding: 2.5rem 0;
+      grid-template-columns: 190px 1fr 130px;
+      gap: 3rem;
+      padding: 2.75rem 0;
       border-bottom: 1px solid var(--border);
       align-items: start;
-    }
-    .exp-item:first-child { border-top: 1px solid var(--border); }
-    .exp-date { font-size: 0.78rem; color: var(--text-muted); padding-top: 0.2rem; line-height: 1.5; }
-    .exp-role { font-size: 1.1rem; font-weight: 500; margin-bottom: 0.3rem; letter-spacing: -0.01em; }
-    .exp-company { font-size: 0.83rem; color: var(--text-muted); margin-bottom: 1.1rem; }
-    .exp-points { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
-    .exp-points li {
-      font-size: 0.87rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-      padding-left: 1.1rem;
       position: relative;
     }
-    .exp-points li::before {
-      content: '→';
+    .exp-row:first-child { border-top: 1px solid var(--border); }
+    .exp-row::before {
+      content: '';
       position: absolute;
-      left: 0;
-      color: var(--text-muted);
-      font-size: 0.78rem;
+      left: -3rem; right: -3rem; top: 0; bottom: 0;
+      background: var(--tag-bg);
+      opacity: 0;
+      transition: opacity 0.35s;
+      pointer-events: none;
     }
-    .exp-tags {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      align-items: flex-end;
-      flex-shrink: 0;
+    .exp-row:hover::before { opacity: 1; }
+    .exp-date { font-size: 0.75rem; color: var(--muted); padding-top: 0.3rem; line-height: 1.6; }
+    .exp-role { font-size: 1.05rem; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 0.25rem; }
+    .exp-co { font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem; }
+    .exp-pts { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .exp-pts li {
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.6;
+      padding-left: 1.2rem;
+      position: relative;
     }
+    .exp-pts li::before {
+      content: '→';
+      position: absolute; left: 0;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .exp-tags-col { display: flex; flex-direction: column; gap: 0.4rem; align-items: flex-end; }
     .tag {
-      padding: 0.28rem 0.7rem;
+      padding: 0.25rem 0.7rem;
       border-radius: 100px;
-      font-size: 0.7rem;
+      font-size: 0.67rem;
       font-weight: 500;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
       background: var(--tag-bg);
-      color: var(--tag-text);
+      color: var(--muted);
       white-space: nowrap;
+      border: 1px solid var(--border);
     }
 
-    /* ── Projects ── */
+    /* ─── Projects ─── */
     .projects-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(12, 1fr);
       gap: 1.25rem;
     }
-    .project-card {
+    .proj-card {
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2rem;
-      background: var(--bg-card);
-      transition: transform 0.4s cubic-bezier(.43,.195,.02,1), box-shadow 0.4s;
-      position: relative;
+      border-radius: 22px;
       overflow: hidden;
+      background: var(--bg);
+      position: relative;
+      transition: transform 0.6s cubic-bezier(.43,.195,.02,1), box-shadow 0.6s cubic-bezier(.43,.195,.02,1);
     }
-    .project-card:hover { transform: translateY(-6px); box-shadow: 0 32px 64px rgba(0,0,0,0.09); }
-    .project-card.featured {
-      grid-column: span 2;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.5rem;
+    .proj-card:hover { transform: translateY(-8px); box-shadow: 0 40px 80px rgba(0,0,0,0.10); }
+    .proj-card.span-8 { grid-column: span 8; }
+    .proj-card.span-4 { grid-column: span 4; }
+    .proj-card.span-6 { grid-column: span 6; }
+
+    .proj-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      position: relative;
+    }
+    .proj-card.span-4 .proj-img { aspect-ratio: 4/5; }
+    .proj-img-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
       align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      transition: transform 1s cubic-bezier(.165,.84,.44,1);
     }
-    .project-header {
+    .proj-card:hover .proj-img-inner { transform: scale(1.08); }
+
+    /* Visual gradients per project */
+    .vis-audit  { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
+    .vis-agent  { background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #21262d 100%); }
+    .vis-candle { background: linear-gradient(135deg, #2d1b33 0%, #4a2545 50%, #6b3a5c 100%); }
+    .vis-forex  { background: linear-gradient(135deg, #0a2818 0%, #1a4731 50%, #2d6a4f 100%); }
+
+    .proj-body { padding: 1.75rem; }
+    .proj-meta {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 1rem;
+      align-items: center;
+      margin-bottom: 0.9rem;
     }
-    .project-year { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.07em; }
-    .project-arrow {
-      width: 30px; height: 30px;
+    .proj-year { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.08em; }
+    .proj-arrow {
+      width: 28px; height: 28px;
       border: 1px solid var(--border);
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.82rem;
-      transition: background 0.25s, transform 0.3s, color 0.25s;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+      transition: background 0.3s, color 0.3s, transform 0.4s cubic-bezier(.43,.195,.02,1), border-color 0.3s;
     }
-    .project-card:hover .project-arrow {
+    .proj-card:hover .proj-arrow {
       background: var(--text);
       color: var(--bg);
+      border-color: var(--text);
       transform: rotate(45deg);
     }
-    .project-title {
-      font-size: 1.35rem;
+    .proj-title {
+      font-size: 1.2rem;
       font-weight: 400;
       letter-spacing: -0.02em;
-      margin-bottom: 0.75rem;
       line-height: 1.2;
+      margin-bottom: 0.65rem;
     }
-    .project-desc {
-      font-size: 0.87rem;
-      color: var(--text-muted);
-      line-height: 1.65;
-      margin-bottom: 1.25rem;
-    }
-    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .project-visual {
-      height: 220px;
-      border-radius: 14px;
-      background: var(--tag-bg);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3.5rem;
-    }
-    .featured .project-visual { height: 100%; min-height: 220px; }
+    .proj-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.1rem; }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 
-    /* ── Skills ── */
+    /* ─── Skills ─── */
     .skills-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
-    }
-    .skill-group {
-      padding: 1.75rem;
+      gap: 1px;
+      background: var(--border);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      background: var(--bg-card);
-      transition: transform 0.35s cubic-bezier(.43,.195,.02,1);
+      border-radius: 22px;
+      overflow: hidden;
     }
-    .skill-group:hover { transform: translateY(-4px); }
-    .skill-group-label {
-      font-size: 0.7rem;
+    .skill-cell {
+      padding: 2rem;
+      background: var(--bg);
+      transition: background 0.3s;
+    }
+    .skill-cell:hover { background: var(--bg-2, var(--tag-bg)); }
+    .skill-lbl {
+      font-size: 0.68rem;
       font-weight: 600;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--text-muted);
+      color: var(--muted);
       margin-bottom: 1.25rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
-    .skill-group-label span { font-size: 1rem; }
-    .skill-items { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .skill-item {
-      padding: 0.32rem 0.8rem;
+    .skill-items { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-pill {
+      padding: 0.3rem 0.75rem;
       border-radius: 100px;
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       background: var(--tag-bg);
-      color: var(--tag-text);
-      transition: background 0.2s, color 0.2s;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      transition: background 0.25s, color 0.25s, border-color 0.25s;
     }
-    .skill-item:hover { background: var(--text); color: var(--bg); }
+    .skill-pill:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
 
-    /* ── Contact ── */
-    .contact-inner {
+    /* ─── Contact ─── */
+    .contact-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 5rem;
+      gap: 6rem;
       align-items: start;
     }
     .contact-title {
-      font-size: clamp(2.5rem, 5vw, 5rem);
-      font-weight: 300;
-      letter-spacing: -0.03em;
-      line-height: 1.05;
+      font-size: clamp(3rem, 6vw, 6rem);
+      font-weight: 200;
+      letter-spacing: -0.04em;
+      line-height: 1;
       margin-bottom: 1.5rem;
     }
     .contact-title em { font-style: italic; }
-    .contact-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 2rem; }
+    .contact-sub { font-size: 0.92rem; color: var(--muted); line-height: 1.7; margin-bottom: 2.5rem; }
     .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
-    .contact-link {
+    .c-link {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 1.1rem 1.4rem;
       border: 1px solid var(--border);
       border-radius: 14px;
-      font-size: 0.88rem;
-      font-weight: 500;
-      background: var(--bg-card);
-      transition: all 0.3s cubic-bezier(.43,.195,.02,1);
+      font-size: 0.85rem;
+      font-weight: 400;
+      background: var(--bg);
+      transition: all 0.4s cubic-bezier(.43,.195,.02,1);
+      position: relative;
+      overflow: hidden;
     }
-    .contact-link:hover { background: var(--text); color: var(--bg); transform: translateX(5px); }
-    .link-arrow { font-size: 1rem; transition: transform 0.3s; }
-    .contact-link:hover .link-arrow { transform: rotate(45deg); }
-    .contact-info-item {
+    .c-link::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--text);
+      transform: translateX(-100%);
+      transition: transform 0.4s cubic-bezier(.43,.195,.02,1);
+    }
+    .c-link:hover::before { transform: translateX(0); }
+    .c-link:hover { color: var(--bg); border-color: var(--text); }
+    .c-link span, .c-link .c-arrow { position: relative; z-index: 1; }
+    .c-arrow { font-size: 0.9rem; transition: transform 0.4s cubic-bezier(.43,.195,.02,1); }
+    .c-link:hover .c-arrow { transform: rotate(45deg); }
+
+    .info-list { display: flex; flex-direction: column; }
+    .info-row {
       display: flex;
       align-items: flex-start;
-      gap: 1rem;
+      gap: 1.25rem;
       padding: 1rem 0;
       border-bottom: 1px solid var(--border);
-      font-size: 0.87rem;
-      line-height: 1.5;
+      font-size: 0.84rem;
+      line-height: 1.55;
     }
-    .info-label {
-      color: var(--text-muted);
-      min-width: 90px;
-      font-size: 0.72rem;
-      letter-spacing: 0.05em;
+    .info-lbl {
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
+      color: var(--muted);
+      min-width: 85px;
       flex-shrink: 0;
-      padding-top: 0.1rem;
+      padding-top: 0.15rem;
     }
 
-    /* ── Footer ── */
+    /* ─── Footer ─── */
     footer {
-      padding: 2rem 2.5rem;
+      padding: 2rem 3rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-top: 1px solid var(--border);
-      max-width: 1160px;
+      max-width: 1200px;
       margin: 0 auto;
     }
-    .footer-text { font-size: 0.75rem; color: var(--text-muted); }
-    .footer-langs { display: flex; gap: 0.4rem; }
-    .lang-badge {
-      padding: 0.22rem 0.6rem;
+    .foot-txt { font-size: 0.72rem; color: var(--muted); }
+    .foot-langs { display: flex; gap: 0.4rem; }
+    .lang {
+      padding: 0.2rem 0.6rem;
       border: 1px solid var(--border);
       border-radius: 100px;
-      font-size: 0.7rem;
-      letter-spacing: 0.06em;
+      font-size: 0.67rem;
+      letter-spacing: 0.07em;
       font-weight: 500;
+      color: var(--muted);
     }
 
-    /* ── Divider ── */
-    .divider { height: 1px; background: var(--border); max-width: 1160px; margin: 0 auto; }
+    /* ─── GSAP initial states ─── */
+    .g-fade { opacity: 0; }
+    .g-up   { opacity: 0; transform: translateY(40px); }
 
-    /* ── Animations ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; } to { opacity: 1; }
-    }
-    @keyframes lineGrow {
-      from { transform: scaleY(0); } to { transform: scaleY(1); }
-    }
-    .reveal {
-      opacity: 0;
-      transform: translateY(22px);
-      transition: opacity 0.7s cubic-bezier(.43,.195,.02,1), transform 0.7s cubic-bezier(.43,.195,.02,1);
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    /* ── Responsive ── */
-    @media (max-width: 900px) {
+    /* ─── Responsive ─── */
+    @media (max-width: 960px) {
       nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
-      section { padding: 5rem 1.5rem; }
-      #hero { padding: 0 1.5rem 5rem; }
-      .hero-bottom { flex-direction: column; align-items: flex-start; }
-      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .exp-item { grid-template-columns: 1fr; gap: 0.75rem; }
-      .exp-tags { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
-      .projects-grid { grid-template-columns: 1fr; }
-      .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+      #hero, .section-full { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .section-wrap { padding: 5rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3.5rem; }
+      .exp-row { grid-template-columns: 1fr; gap: 0.75rem; }
+      .exp-tags-col { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+      .proj-card.span-8, .proj-card.span-4, .proj-card.span-6 { grid-column: span 12; }
       .skills-grid { grid-template-columns: 1fr 1fr; }
-      .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
-      .hero-scroll { display: none; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      footer { padding: 1.5rem; }
+      .hero-scroll-line { display: none; }
+      .cursor-dot, .cursor-ring { display: none; }
+      body { cursor: auto; }
+      a, button { cursor: auto; }
     }
     @media (max-width: 560px) {
-      .about-stats { grid-template-columns: 1fr 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
       .skills-grid { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .hero-cta { flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Cursor -->
+  <div class="cursor-dot" id="cDot"></div>
+  <div class="cursor-ring" id="cRing"></div>
+
+  <!-- Loader -->
+  <div id="loader">
+    <div class="loader-name">Daniel Cantor</div>
+    <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
+  </div>
+
   <!-- Nav -->
-  <nav>
+  <nav id="mainNav">
     <div class="nav-logo">Daniel Cantor</div>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
@@ -564,19 +662,22 @@
       <li><a href="#skills">Skills</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-      <span id="theme-icon">&#9789;</span>
-    </button>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">&#9789;</button>
   </nav>
 
-  <!-- Hero -->
+  <!-- ── Hero ── -->
   <section id="hero">
     <div class="hero-inner">
-      <p class="hero-label">Digital Marketing Strategist &amp; Growth Specialist</p>
-      <h1 class="hero-name">Daniel<br /><em>Cantor</em></h1>
-      <div class="hero-bottom">
+      <div class="hero-label g-fade">
+        <span>Digital Marketing Strategist &amp; Growth Specialist</span>
+      </div>
+      <h1 class="hero-name">
+        <span class="line"><span class="line-inner">Daniel</span></span>
+        <span class="line"><span class="line-inner"><em>Cantor</em></span></span>
+      </h1>
+      <div class="hero-bottom g-fade">
         <p class="hero-desc">
-          6+ years turning data into growth — through paid media, SEO, and AI-powered automation that scales without complexity.
+          6+ years turning data into growth &mdash; paid media, SEO, and AI-powered automation that scales without complexity.
         </p>
         <div class="hero-cta">
           <a href="#projects" class="btn btn-primary">View Projects &rarr;</a>
@@ -584,163 +685,158 @@
         </div>
       </div>
     </div>
-    <div class="hero-scroll">Scroll</div>
+    <div class="hero-scroll-line g-fade">
+      <div class="scroll-text">Scroll</div>
+      <div class="scroll-line"></div>
+    </div>
   </section>
 
-  <!-- About -->
-  <section id="about">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-num">01 / About</span>
-        <h2 class="section-title">Who I <em>am</em></h2>
+  <!-- ── About ── -->
+  <div class="section-full" id="about">
+    <div class="section-wrap" style="padding-top:0; padding-bottom:0;">
+      <div class="section-header g-up">
+        <span class="s-num">01 / About</span>
+        <h2 class="s-title">Who I <em>am</em></h2>
       </div>
       <div class="about-grid">
-        <div class="reveal">
-          <div class="about-stats">
-            <div class="stat-card">
-              <div class="stat-number">6+</div>
-              <div class="stat-label">Years of experience</div>
+        <div class="g-up">
+          <div class="stats-grid">
+            <div class="stat-cell">
+              <div class="stat-num" data-count="6">0</div>
+              <div class="stat-lbl">Years of experience</div>
             </div>
-            <div class="stat-card">
-              <div class="stat-number">40%</div>
-              <div class="stat-label">CPA reduction achieved</div>
+            <div class="stat-cell">
+              <div class="stat-num" data-count="40" data-suffix="%">0</div>
+              <div class="stat-lbl">CPA reduction achieved</div>
             </div>
-            <div class="stat-card">
-              <div class="stat-number">18%</div>
-              <div class="stat-label">Conversion rate increase</div>
+            <div class="stat-cell">
+              <div class="stat-num" data-count="18" data-suffix="%">0</div>
+              <div class="stat-lbl">Conversion rate increase</div>
             </div>
-            <div class="stat-card">
-              <div class="stat-number">35%</div>
-              <div class="stat-label">Engagement growth</div>
+            <div class="stat-cell">
+              <div class="stat-num" data-count="35" data-suffix="%">0</div>
+              <div class="stat-lbl">Engagement growth</div>
             </div>
           </div>
-          <span class="about-badge">
-            <span>&#x1F4CD;</span> Kissimmee, FL &mdash; EAD Holder
-          </span>
+          <span class="about-location">&#x1F4CD;&nbsp; Kissimmee, FL &mdash; EAD Holder</span>
         </div>
-        <div class="about-text reveal" style="transition-delay:0.15s;">
+        <div class="about-body g-up" style="transition-delay:0.15s;">
           <p>
-            I'm a <strong>results-driven Digital Marketing Strategist</strong> with a track record of building marketing systems that actually move the needle — not just generate reports.
+            I'm a <strong>results-driven Digital Marketing Strategist</strong> with a track record of building marketing systems that actually move the needle &mdash; not just generate reports.
           </p>
           <p>
-            My work spans <strong>Meta Ads, Google Ads, SEO, email marketing, CRM, and Shopify e-commerce</strong>. What sets me apart is my ability to integrate AI and automation tools (n8n, Claude API) to build scalable workflows that multiply team output without multiplying headcount.
+            My work spans <strong>Meta Ads, Google Ads, SEO, email marketing, CRM, and Shopify e-commerce</strong>. What sets me apart is integrating AI and automation tools (n8n, Claude API) to build scalable workflows that multiply output without multiplying headcount.
           </p>
           <p>
-            From growing a hospitality brand's direct bookings by 25% to cutting CPA by 40% for a fintech company, I bring a <strong>data-first mindset</strong> paired with the creative instinct to know when the numbers aren't telling the whole story.
+            From growing a hotel brand's direct bookings by 25% to cutting CPA by 40% for a fintech company, I bring a <strong>data-first mindset</strong> paired with the creative instinct to know when the numbers aren't telling the whole story.
           </p>
-          <div class="about-action">
+          <div class="about-cta">
             <a href="mailto:emprender2691@gmail.com" class="btn btn-outline">Available for remote roles &rarr;</a>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <div class="divider"></div>
-
-  <!-- Experience -->
-  <section id="experience">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-num">02 / Experience</span>
-        <h2 class="section-title">Where I've <em>worked</em></h2>
+  <!-- ── Experience ── -->
+  <div class="section-full" id="experience">
+    <div class="section-wrap" style="padding-top:0; padding-bottom:0;">
+      <div class="section-header g-up">
+        <span class="s-num">02 / Experience</span>
+        <h2 class="s-title">Where I've <em>worked</em></h2>
       </div>
 
-      <div class="exp-item reveal">
+      <div class="exp-row g-up">
         <div class="exp-date">May 2025 &mdash; Present</div>
         <div>
           <div class="exp-role">Driver / Logistics Associate</div>
-          <div class="exp-company">LLM Delivery &mdash; Amazon &middot; Kissimmee, FL</div>
-          <ul class="exp-points">
-            <li>Managing high-volume delivery operations (250&ndash;300 packages/day) while building side projects and pursuing remote marketing opportunities.</li>
+          <div class="exp-co">LLM Delivery &mdash; Amazon &middot; Kissimmee, FL</div>
+          <ul class="exp-pts">
+            <li>Managing 250&ndash;300 packages/day while building side projects and pursuing remote marketing roles.</li>
           </ul>
         </div>
-        <div class="exp-tags">
-          <span class="tag">Operations</span>
-        </div>
+        <div class="exp-tags-col"><span class="tag">Operations</span></div>
       </div>
 
-      <div class="exp-item reveal">
-        <div class="exp-date">May 2024 &mdash; April 2025</div>
+      <div class="exp-row g-up">
+        <div class="exp-date">May 2024 &mdash; Apr 2025</div>
         <div>
           <div class="exp-role">Marketing Lead &amp; Front Desk Operations</div>
-          <div class="exp-company">Red Arrow Inn &amp; Suites &middot; Kissimmee, FL</div>
-          <ul class="exp-points">
-            <li>Developed local SEO and paid media strategy, increasing direct bookings by 25% and website traffic by 30%.</li>
-            <li>Managed Meta Ads &amp; Google Ads with full-funnel tracking &mdash; 18% conversion improvement, 12% cost reduction.</li>
-            <li>Built social media presence from scratch: 40% follower growth, 35% engagement increase in 3 months.</li>
-            <li>Led front desk operations maintaining 98% guest satisfaction rate.</li>
+          <div class="exp-co">Red Arrow Inn &amp; Suites &middot; Kissimmee, FL</div>
+          <ul class="exp-pts">
+            <li>Local SEO + paid media strategy boosted direct bookings 25% and web traffic 30%.</li>
+            <li>Full-funnel Meta &amp; Google Ads management: 18% conversion improvement, 12% cost reduction.</li>
+            <li>Built social presence from zero: 40% follower growth, 35% engagement increase in 3 months.</li>
+            <li>Led front desk maintaining 98% guest satisfaction rate.</li>
           </ul>
         </div>
-        <div class="exp-tags">
+        <div class="exp-tags-col">
           <span class="tag">Meta Ads</span>
           <span class="tag">Google Ads</span>
           <span class="tag">SEO</span>
         </div>
       </div>
 
-      <div class="exp-item reveal">
+      <div class="exp-row g-up">
         <div class="exp-date">Jun 2018 &mdash; Dec 2023</div>
         <div>
           <div class="exp-role">Operations &amp; Marketing Strategy Manager</div>
-          <div class="exp-company">Cantor &amp; Gonz&aacute;lez SAS &middot; Colombia (Financial Education &amp; Trading)</div>
-          <ul class="exp-points">
-            <li>Optimized paid media budgets, reducing CPA by 40% while maintaining lead quality.</li>
-            <li>Built email marketing &amp; CRM workflows achieving 85% participant retention rate across educational programs.</li>
-            <li>Led competitor analysis resulting in two new service launches generating 35% additional revenue.</li>
-            <li>Improved team productivity by 22% through AI-driven tools and process automation.</li>
+          <div class="exp-co">Cantor &amp; Gonz&aacute;lez SAS &middot; Colombia</div>
+          <ul class="exp-pts">
+            <li>Optimized paid media budgets reducing CPA by 40% while maintaining lead quality.</li>
+            <li>CRM &amp; email workflows achieved 85% participant retention across educational programs.</li>
+            <li>Market analysis led to two new service launches generating 35% additional revenue.</li>
+            <li>Improved team productivity 22% via AI tools and process automation.</li>
           </ul>
         </div>
-        <div class="exp-tags">
+        <div class="exp-tags-col">
           <span class="tag">CRM</span>
-          <span class="tag">Email Mktg</span>
+          <span class="tag">Email</span>
           <span class="tag">Paid Media</span>
           <span class="tag">AI</span>
         </div>
       </div>
 
-      <div class="exp-item reveal">
+      <div class="exp-row g-up">
         <div class="exp-date">2024 &mdash; 2025</div>
         <div>
           <div class="exp-role">Freelance Digital Marketing &amp; E-commerce</div>
-          <div class="exp-company">Independent Projects</div>
-          <ul class="exp-points">
-            <li>Forex sin tanta raya: Built a lead acquisition channel through educational Instagram content strategy for a personal finance brand.</li>
-            <li>Soul Candle (Shopify): End-to-end store development &mdash; UX/UI, payments, SEO, Meta &amp; Google Ads with full pixel and catalog setup.</li>
+          <div class="exp-co">Independent Projects</div>
+          <ul class="exp-pts">
+            <li>Forex sin tanta raya: Lead acquisition channel through educational Instagram content for a finance brand.</li>
+            <li>Soul Candle: End-to-end Shopify &mdash; UX/UI, payments, SEO, full Meta &amp; Google Ads pixel setup.</li>
           </ul>
         </div>
-        <div class="exp-tags">
+        <div class="exp-tags-col">
           <span class="tag">Shopify</span>
           <span class="tag">E-commerce</span>
-          <span class="tag">Content</span>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <div class="divider"></div>
-
-  <!-- Projects -->
-  <section id="projects">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-num">03 / Projects</span>
-        <h2 class="section-title">What I've <em>built</em></h2>
+  <!-- ── Projects ── -->
+  <div class="section-full" id="projects">
+    <div class="section-wrap" style="padding-top:0; padding-bottom:0;">
+      <div class="section-header g-up">
+        <span class="s-num">03 / Projects</span>
+        <h2 class="s-title">What I've <em>built</em></h2>
       </div>
       <div class="projects-grid">
 
-        <!-- Featured -->
-        <a href="https://cg-audit.onrender.com" target="_blank" class="project-card featured reveal">
-          <div>
-            <div class="project-header">
-              <span class="project-year">2024 &mdash; In Development</span>
-              <div class="project-arrow">&nearr;</div>
+        <!-- Featured: C&G Audit -->
+        <a href="https://cg-audit.onrender.com" target="_blank" class="proj-card span-8 g-up">
+          <div class="proj-img">
+            <div class="proj-img-inner vis-audit">&#x1F50D;</div>
+          </div>
+          <div class="proj-body">
+            <div class="proj-meta">
+              <span class="proj-year">2024 &mdash; In Development</span>
+              <div class="proj-arrow">&#x2197;</div>
             </div>
-            <h3 class="project-title">C&amp;G Audit &mdash; AI Website Auditing SaaS</h3>
-            <p class="project-desc">
-              A SaaS tool built with Next.js, serverless functions on Render, and the Claude API. Scores any website out of 100 across SEO, paid media readiness, content quality, conversion optimization, and social signals &mdash; generating a full AI-powered report in seconds.
-            </p>
-            <div class="project-tags">
+            <h3 class="proj-title">C&amp;G Audit &mdash; AI Website Auditing SaaS</h3>
+            <p class="proj-desc">Next.js + Claude API. Scores any website /100 across SEO, paid media, content, conversion &amp; social &mdash; generating a full AI report in seconds.</p>
+            <div class="proj-tags">
               <span class="tag">Next.js</span>
               <span class="tag">Claude API</span>
               <span class="tag">React</span>
@@ -748,222 +844,329 @@
               <span class="tag">SaaS</span>
             </div>
           </div>
-          <div class="project-visual">&#x1F50D;</div>
         </a>
 
-        <div class="project-card reveal" style="transition-delay:0.1s;">
-          <div class="project-header">
-            <span class="project-year">2024</span>
-            <div class="project-arrow">&nearr;</div>
+        <!-- Job Search Agent -->
+        <div class="proj-card span-4 g-up" style="transition-delay:0.12s;">
+          <div class="proj-img">
+            <div class="proj-img-inner vis-agent">&#x1F916;</div>
           </div>
-          <div class="project-visual" style="height:140px; margin-bottom:1.25rem;">&#x1F916;</div>
-          <h3 class="project-title">Job Search Automation Agent</h3>
-          <p class="project-desc">
-            An n8n workflow deployed on Render that scrapes 5+ remote job boards, scores listings via Claude API, and delivers a personalized daily email digest &mdash; cutting manual search time from hours to minutes.
-          </p>
-          <div class="project-tags">
-            <span class="tag">n8n</span>
-            <span class="tag">Claude API</span>
-            <span class="tag">Automation</span>
-            <span class="tag">Render</span>
-          </div>
-        </div>
-
-        <div class="project-card reveal" style="transition-delay:0.2s;">
-          <div class="project-header">
-            <span class="project-year">2024</span>
-            <div class="project-arrow">&nearr;</div>
-          </div>
-          <div class="project-visual" style="height:140px; margin-bottom:1.25rem;">&#x1F56F;&#xFE0F;</div>
-          <h3 class="project-title">Soul Candle &mdash; Shopify Store</h3>
-          <p class="project-desc">
-            End-to-end Shopify store: UX/UI design, payment integration, SEO optimization, and full Meta Ads &amp; Google Ads setup with pixel tracking and product catalog configuration.
-          </p>
-          <div class="project-tags">
-            <span class="tag">Shopify</span>
-            <span class="tag">Meta Ads</span>
-            <span class="tag">Google Ads</span>
-            <span class="tag">SEO</span>
+          <div class="proj-body">
+            <div class="proj-meta">
+              <span class="proj-year">2024</span>
+              <div class="proj-arrow">&#x2197;</div>
+            </div>
+            <h3 class="proj-title">Job Search Agent</h3>
+            <p class="proj-desc">n8n workflow on Render scraping 5+ job boards, scoring via Claude API, delivering a daily email digest.</p>
+            <div class="proj-tags">
+              <span class="tag">n8n</span>
+              <span class="tag">Claude API</span>
+              <span class="tag">Automation</span>
+            </div>
           </div>
         </div>
 
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- Skills -->
-  <section id="skills">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="section-num">04 / Skills</span>
-        <h2 class="section-title">What I <em>know</em></h2>
-      </div>
-      <div class="skills-grid">
-
-        <div class="skill-group reveal">
-          <div class="skill-group-label"><span>&#x1F4E3;</span> Paid Media</div>
-          <div class="skill-items">
-            <span class="skill-item">Meta Ads Manager</span>
-            <span class="skill-item">Google Ads</span>
-            <span class="skill-item">Google Analytics</span>
-            <span class="skill-item">Campaign Tracking</span>
-            <span class="skill-item">ROI / ROAS Analysis</span>
+        <!-- Soul Candle -->
+        <div class="proj-card span-6 g-up" style="transition-delay:0.18s;">
+          <div class="proj-img">
+            <div class="proj-img-inner vis-candle">&#x1F56F;&#xFE0F;</div>
+          </div>
+          <div class="proj-body">
+            <div class="proj-meta">
+              <span class="proj-year">2024</span>
+              <div class="proj-arrow">&#x2197;</div>
+            </div>
+            <h3 class="proj-title">Soul Candle &mdash; Shopify</h3>
+            <p class="proj-desc">End-to-end Shopify store: UX/UI, payments, SEO, full Meta &amp; Google Ads setup with pixel and catalog.</p>
+            <div class="proj-tags">
+              <span class="tag">Shopify</span>
+              <span class="tag">Meta Ads</span>
+              <span class="tag">SEO</span>
+            </div>
           </div>
         </div>
 
-        <div class="skill-group reveal" style="transition-delay:0.1s;">
-          <div class="skill-group-label"><span>&#x1F50E;</span> SEO &amp; Content</div>
-          <div class="skill-items">
-            <span class="skill-item">On-Page SEO</span>
-            <span class="skill-item">Keyword Research</span>
-            <span class="skill-item">Content Strategy</span>
-            <span class="skill-item">Lead Generation</span>
-            <span class="skill-item">Funnel Optimization</span>
+        <!-- Forex -->
+        <div class="proj-card span-6 g-up" style="transition-delay:0.24s;">
+          <div class="proj-img">
+            <div class="proj-img-inner vis-forex">&#x1F4C8;</div>
           </div>
-        </div>
-
-        <div class="skill-group reveal" style="transition-delay:0.2s;">
-          <div class="skill-group-label"><span>&#x1F6CD;&#xFE0F;</span> E-Commerce</div>
-          <div class="skill-items">
-            <span class="skill-item">Shopify (end-to-end)</span>
-            <span class="skill-item">Product Catalog</span>
-            <span class="skill-item">Conversion Optimization</span>
-            <span class="skill-item">A/B Testing</span>
-          </div>
-        </div>
-
-        <div class="skill-group reveal" style="transition-delay:0.1s;">
-          <div class="skill-group-label"><span>&#x1F4E7;</span> Email &amp; CRM</div>
-          <div class="skill-items">
-            <span class="skill-item">Email Marketing</span>
-            <span class="skill-item">CRM Systems</span>
-            <span class="skill-item">Automation Workflows</span>
-            <span class="skill-item">List Segmentation</span>
-          </div>
-        </div>
-
-        <div class="skill-group reveal" style="transition-delay:0.2s;">
-          <div class="skill-group-label"><span>&#x1F916;</span> AI &amp; Automation</div>
-          <div class="skill-items">
-            <span class="skill-item">n8n</span>
-            <span class="skill-item">Claude API</span>
-            <span class="skill-item">ChatGPT</span>
-            <span class="skill-item">Gemini</span>
-            <span class="skill-item">Prompt Engineering</span>
-            <span class="skill-item">Workflow Automation</span>
-          </div>
-        </div>
-
-        <div class="skill-group reveal" style="transition-delay:0.3s;">
-          <div class="skill-group-label"><span>&#x1F4CA;</span> Strategy &amp; Ops</div>
-          <div class="skill-items">
-            <span class="skill-item">Process Optimization</span>
-            <span class="skill-item">Team Leadership</span>
-            <span class="skill-item">KPI Reporting</span>
-            <span class="skill-item">Market Analysis</span>
+          <div class="proj-body">
+            <div class="proj-meta">
+              <span class="proj-year">2024</span>
+              <div class="proj-arrow">&#x2197;</div>
+            </div>
+            <h3 class="proj-title">Forex sin tanta raya</h3>
+            <p class="proj-desc">Instagram content strategy for a personal finance brand. Built a lead acquisition channel through educational content.</p>
+            <div class="proj-tags">
+              <span class="tag">Content</span>
+              <span class="tag">Lead Gen</span>
+              <span class="tag">Instagram</span>
+            </div>
           </div>
         </div>
 
       </div>
     </div>
-  </section>
+  </div>
 
-  <div class="divider"></div>
+  <!-- ── Skills ── -->
+  <div class="section-full" id="skills">
+    <div class="section-wrap" style="padding-top:0; padding-bottom:0;">
+      <div class="section-header g-up">
+        <span class="s-num">04 / Skills</span>
+        <h2 class="s-title">What I <em>know</em></h2>
+      </div>
+      <div class="skills-grid g-up">
 
-  <!-- Contact -->
-  <section id="contact">
-    <div class="container">
-      <div class="contact-inner">
-        <div class="reveal">
+        <div class="skill-cell">
+          <div class="skill-lbl">&#x1F4E3; Paid Media</div>
+          <div class="skill-items">
+            <span class="skill-pill">Meta Ads Manager</span>
+            <span class="skill-pill">Google Ads</span>
+            <span class="skill-pill">Google Analytics</span>
+            <span class="skill-pill">Campaign Tracking</span>
+            <span class="skill-pill">ROI / ROAS</span>
+          </div>
+        </div>
+
+        <div class="skill-cell">
+          <div class="skill-lbl">&#x1F50E; SEO &amp; Content</div>
+          <div class="skill-items">
+            <span class="skill-pill">On-Page SEO</span>
+            <span class="skill-pill">Keyword Research</span>
+            <span class="skill-pill">Content Strategy</span>
+            <span class="skill-pill">Lead Generation</span>
+            <span class="skill-pill">Funnel Optimization</span>
+          </div>
+        </div>
+
+        <div class="skill-cell">
+          <div class="skill-lbl">&#x1F6CD;&#xFE0F; E-Commerce</div>
+          <div class="skill-items">
+            <span class="skill-pill">Shopify (end-to-end)</span>
+            <span class="skill-pill">Conversion Optimization</span>
+            <span class="skill-pill">A/B Testing</span>
+            <span class="skill-pill">Product Catalog</span>
+          </div>
+        </div>
+
+        <div class="skill-cell">
+          <div class="skill-lbl">&#x1F4E7; Email &amp; CRM</div>
+          <div class="skill-items">
+            <span class="skill-pill">Email Marketing</span>
+            <span class="skill-pill">CRM Systems</span>
+            <span class="skill-pill">Automation Workflows</span>
+            <span class="skill-pill">List Segmentation</span>
+          </div>
+        </div>
+
+        <div class="skill-cell">
+          <div class="skill-lbl">&#x1F916; AI &amp; Automation</div>
+          <div class="skill-items">
+            <span class="skill-pill">n8n</span>
+            <span class="skill-pill">Claude API</span>
+            <span class="skill-pill">ChatGPT</span>
+            <span class="skill-pill">Gemini</span>
+            <span class="skill-pill">Prompt Engineering</span>
+            <span class="skill-pill">Workflow Automation</span>
+          </div>
+        </div>
+
+        <div class="skill-cell">
+          <div class="skill-lbl">&#x1F4CA; Strategy &amp; Ops</div>
+          <div class="skill-items">
+            <span class="skill-pill">Process Optimization</span>
+            <span class="skill-pill">Team Leadership</span>
+            <span class="skill-pill">KPI Reporting</span>
+            <span class="skill-pill">Market Analysis</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Contact ── -->
+  <div class="section-full" id="contact">
+    <div class="section-wrap" style="padding-top:0; padding-bottom:0;">
+      <div class="contact-grid">
+        <div class="g-up">
           <h2 class="contact-title">Let's <em>work</em><br />together</h2>
-          <p class="contact-desc">
-            Open to remote digital marketing, growth, or operations roles. No sponsorship required &mdash; EAD holder based in Florida.
-          </p>
+          <p class="contact-sub">Open to remote digital marketing, growth, or operations roles. No sponsorship required &mdash; EAD holder in Florida.</p>
           <div class="contact-links">
-            <a href="mailto:emprender2691@gmail.com" class="contact-link">
+            <a href="mailto:emprender2691@gmail.com" class="c-link">
               <span>emprender2691@gmail.com</span>
-              <span class="link-arrow">&#x2197;</span>
+              <span class="c-arrow">&#x2197;</span>
             </a>
-            <a href="https://linkedin.com/in/decsmarketing" target="_blank" class="contact-link">
+            <a href="https://linkedin.com/in/decsmarketing" target="_blank" class="c-link">
               <span>linkedin.com/in/decsmarketing</span>
-              <span class="link-arrow">&#x2197;</span>
+              <span class="c-arrow">&#x2197;</span>
             </a>
-            <a href="https://cg-audit.onrender.com" target="_blank" class="contact-link">
+            <a href="https://cg-audit.onrender.com" target="_blank" class="c-link">
               <span>C&amp;G Audit &mdash; Live Project</span>
-              <span class="link-arrow">&#x2197;</span>
+              <span class="c-arrow">&#x2197;</span>
             </a>
           </div>
         </div>
-        <div class="reveal" style="transition-delay:0.15s;">
-          <div class="contact-info-item">
-            <span class="info-label">Location</span>
+        <div class="info-list g-up" style="transition-delay:0.15s;">
+          <div class="info-row">
+            <span class="info-lbl">Location</span>
             <span>Kissimmee, FL, USA</span>
           </div>
-          <div class="contact-info-item">
-            <span class="info-label">Phone</span>
+          <div class="info-row">
+            <span class="info-lbl">Phone</span>
             <span>+1 (689) 288-6540</span>
           </div>
-          <div class="contact-info-item">
-            <span class="info-label">Status</span>
+          <div class="info-row">
+            <span class="info-lbl">Status</span>
             <span>EAD Holder &mdash; No Sponsorship Required</span>
           </div>
-          <div class="contact-info-item">
-            <span class="info-label">Languages</span>
+          <div class="info-row">
+            <span class="info-lbl">Languages</span>
             <span>Spanish (Native) &middot; English (Professional)</span>
           </div>
-          <div class="contact-info-item">
-            <span class="info-label">Education</span>
+          <div class="info-row">
+            <span class="info-lbl">Education</span>
             <span>B.Sc. International Trade &mdash; Universidad Cooperativa de Colombia</span>
           </div>
-          <div class="contact-info-item">
-            <span class="info-label">Certs</span>
+          <div class="info-row">
+            <span class="info-lbl">Certs</span>
             <span>Google Ads &middot; Facebook Ads &middot; Shopify (2025)</span>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- Footer -->
   <footer>
-    <p class="footer-text">&copy; 2026 Daniel Cantor &middot; Digital Marketing Strategist</p>
-    <div class="footer-langs">
-      <span class="lang-badge">ES</span>
-      <span class="lang-badge">EN</span>
+    <p class="foot-txt">&copy; 2026 Daniel Cantor &middot; Digital Marketing Strategist</p>
+    <div class="foot-langs">
+      <span class="lang">ES</span>
+      <span class="lang">EN</span>
     </div>
   </footer>
 
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
   <script>
-    // Theme toggle
-    function toggleTheme() {
-      const html = document.documentElement;
-      const icon = document.getElementById('theme-icon');
-      const isDark = html.dataset.theme === 'dark';
-      html.dataset.theme = isDark ? 'light' : 'dark';
-      icon.textContent = isDark ? '\u263D' : '\u2600';
-      localStorage.setItem('theme', html.dataset.theme);
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ── Loader ── */
+    const loaderBar = document.getElementById('loaderBar');
+    const loader    = document.getElementById('loader');
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += Math.random() * 18;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+        loaderBar.style.width = '100%';
+        gsap.to(loader, {
+          opacity: 0,
+          duration: 0.6,
+          delay: 0.25,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            loader.style.display = 'none';
+            heroIn();
+          }
+        });
+      }
+      loaderBar.style.width = progress + '%';
+    }, 80);
+
+    /* ── Hero entrance ── */
+    function heroIn() {
+      // Label
+      gsap.to('.hero-label', { opacity: 1, duration: 0.8, ease: 'power3.out', delay: 0.1 });
+
+      // Name lines clip reveal
+      gsap.fromTo('.hero-name .line-inner',
+        { yPercent: 110 },
+        { yPercent: 0, duration: 1.1, ease: 'power4.out', stagger: 0.12, delay: 0.2 }
+      );
+
+      // Bottom + scroll indicator
+      gsap.to('.hero-bottom, .hero-scroll-line', {
+        opacity: 1, duration: 0.9, ease: 'power3.out', delay: 0.7, stagger: 0.1
+      });
     }
 
-    // Restore theme
-    const saved = localStorage.getItem('theme');
-    if (saved) {
-      document.documentElement.dataset.theme = saved;
-      document.getElementById('theme-icon').textContent = saved === 'dark' ? '\u2600' : '\u263D';
-    }
+    /* ── Custom cursor ── */
+    const dot  = document.getElementById('cDot');
+    const ring = document.getElementById('cRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
 
-    // Scroll reveal
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+    function animCursor() {
+      dot.style.left  = mx + 'px';
+      dot.style.top   = my + 'px';
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(animCursor);
+    }
+    animCursor();
+
+    document.querySelectorAll('a, button, .proj-card, .stat-cell, .skill-pill, .c-link').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
+
+    /* ── Scroll reveals ── */
+    gsap.utils.toArray('.g-up').forEach((el, i) => {
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 0.85,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 88%',
+          toggleActions: 'play none none none'
+        },
+        delay: parseFloat(el.style.transitionDelay) || 0
+      });
+    });
+
+    /* ── Counter animation ── */
+    document.querySelectorAll('.stat-num[data-count]').forEach(el => {
+      const target = parseInt(el.dataset.count);
+      const suffix = el.dataset.suffix || '+';
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 85%',
+        once: true,
+        onEnter: () => {
+          gsap.fromTo({ val: 0 }, { val: target }, {
+            duration: 1.6,
+            ease: 'power2.out',
+            onUpdate: function() {
+              el.textContent = Math.round(this.targets()[0].val) + suffix;
+            }
+          });
         }
       });
-    }, { threshold: 0.08 });
+    });
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    /* ── Theme toggle ── */
+    const themeBtn = document.getElementById('themeBtn');
+    function setTheme(t) {
+      document.documentElement.dataset.theme = t;
+      themeBtn.innerHTML = t === 'dark' ? '&#9728;' : '&#9789;';
+      localStorage.setItem('theme', t);
+    }
+    themeBtn.addEventListener('click', () => {
+      setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+    });
+    const saved = localStorage.getItem('theme');
+    if (saved) setTheme(saved);
   </script>
 
 </body>

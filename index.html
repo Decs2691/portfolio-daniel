@@ -814,7 +814,7 @@
 
     /* ─── GSAP hidden ─── */
     .g-fade { opacity: 0; }
-    .g-up   { opacity: 0; transform: translateY(40px); }
+    .g-up   { opacity: 0; transform: translateY(22px); }
 
     /* ─── Responsive ─── */
     @media (max-width: 960px) {
@@ -1315,9 +1315,9 @@
     gsap.utils.toArray('.g-up').forEach(el => {
       gsap.to(el, {
         opacity: 1, y: 0,
-        duration: 0.9,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: el, start: 'top 87%', once: true }
+        duration: 0.55,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 98%', once: true }
       });
     });
 

@@ -430,7 +430,6 @@
     .grad-audit  { background: linear-gradient(145deg, #0f172a 0%, #1e3a5f 50%, #0ea5e9 100%); }
     .grad-agent  { background: linear-gradient(145deg, #052e16 0%, #14532d 50%, #4ade80 100%); }
     .grad-candle { background: linear-gradient(145deg, #2e1065 0%, #6b21a8 50%, #d946ef 100%); }
-    .grad-forex  { background: linear-gradient(145deg, #422006 0%, #92400e 50%, #f59e0b 100%); }
 
     .grad-circle {
       width: 100%; height: 100%;
@@ -441,6 +440,39 @@
       transition: transform 1s cubic-bezier(.165,.84,.44,1);
     }
     .proj-circle:hover .grad-circle { transform: scale(1.12); }
+
+    /* logo-based circles */
+    .logo-wrap {
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 1s cubic-bezier(.165,.84,.44,1);
+    }
+    .proj-circle:hover .logo-wrap { transform: scale(1.06); }
+
+    /* profile photo in About */
+    .profile-photo-row {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 4rem;
+    }
+    .profile-photo {
+      width: clamp(140px, 18vw, 240px);
+      height: clamp(140px, 18vw, 240px);
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid rgba(20,20,20,0.15);
+      background: linear-gradient(145deg, #1e3a5f, #c0623a);
+      flex-shrink: 0;
+    }
+    .profile-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
 
     /* grid placement */
     .pc-1 { grid-column: 1 / 6; }
@@ -918,23 +950,27 @@
           <span class="dot-accent tl"></span>
         </a>
 
-        <!-- Job Search Agent — text circle -->
-        <a href="https://linkedin.com/in/decsmarketing" target="_blank" class="proj-circle txt-circle pc-2 g-up" style="animation-delay:.1s">
+        <!-- n8n Automation — img circle -->
+        <a href="https://cg-audit.onrender.com" target="_blank" class="proj-circle img-circle pc-2 g-up" style="animation-delay:.1s">
+          <div class="logo-wrap" style="background:linear-gradient(145deg,#1a0a00,#b94040,#ff6d5a)">
+            <svg viewBox="0 0 160 80" xmlns="http://www.w3.org/2000/svg" style="width:65%;height:auto">
+              <text x="80" y="62" text-anchor="middle" font-family="Arial Black,sans-serif" font-weight="900" font-size="64" fill="white">n8n</text>
+            </svg>
+          </div>
           <span class="dot-accent br"></span>
-          <div class="proj-num">N. 02</div>
-          <div class="proj-name">Job Search<br />Agent</div>
-          <div class="proj-year">Y. 2024</div>
         </a>
 
         <!-- Soul Candle — small img circle -->
-        <a href="https://linkedin.com/in/decsmarketing" target="_blank" class="proj-circle img-circle pc-3 g-up" style="animation-delay:.2s">
-          <div class="grad-circle grad-candle">&#x1F56F;&#xFE0F;</div>
+        <a href="https://ytydxn-he.myshopify.com" target="_blank" class="proj-circle img-circle pc-3 g-up" style="animation-delay:.2s">
+          <div class="logo-wrap" style="background:white">
+            <img src="download.png" alt="Soul Candle" style="width:92%;height:92%;object-fit:contain;" />
+          </div>
         </a>
 
-        <!-- Forex — text circle -->
-        <a href="https://linkedin.com/in/decsmarketing" target="_blank" class="proj-circle txt-circle pc-4 g-up" style="animation-delay:.15s">
+        <!-- Red Arrow Boutique Hotel — text circle -->
+        <a href="https://www.redarrowinn.com" target="_blank" class="proj-circle txt-circle pc-4 g-up" style="animation-delay:.15s">
           <div class="proj-num">N. 04</div>
-          <div class="proj-name">Forex sin<br />tanta raya</div>
+          <div class="proj-name">Red Arrow<br />Boutique Hotel</div>
           <div class="proj-year">Y. 2024</div>
         </a>
 
@@ -946,9 +982,11 @@
           <div class="proj-year">Y. 2024</div>
         </a>
 
-        <!-- Forex img circle -->
-        <a href="https://linkedin.com/in/decsmarketing" target="_blank" class="proj-circle img-circle pc-6 g-up" style="animation-delay:.25s">
-          <div class="grad-circle grad-forex">&#x1F4C8;</div>
+        <!-- Red Arrow Boutique Hotel — img circle -->
+        <a href="https://www.redarrowinn.com" target="_blank" class="proj-circle img-circle pc-6 g-up" style="animation-delay:.25s">
+          <div class="logo-wrap" style="background:white;padding:0.75rem">
+            <img src="download.jpg" alt="Red Arrow Boutique Hotel" style="width:90%;height:90%;object-fit:contain;" />
+          </div>
         </a>
 
       </div>
@@ -964,6 +1002,12 @@
     <div class="sec-inner">
       <div class="sec-label g-up">01 / About</div>
       <h2 class="about-title g-up">About<br /><em>Daniel</em></h2>
+
+      <div class="profile-photo-row g-up">
+        <div class="profile-photo">
+          <img src="IMG_1711.jpg" alt="Daniel Cantor" />
+        </div>
+      </div>
 
       <div class="about-grid">
 

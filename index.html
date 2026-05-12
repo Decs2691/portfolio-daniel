@@ -474,13 +474,11 @@
       display: block;
     }
 
-    /* grid placement */
+    /* grid placement — 4 circles */
     .pc-1 { grid-column: 1 / 6; }
-    .pc-2 { grid-column: 6 / 10; margin-top: 6rem; }
-    .pc-3 { grid-column: 10 / 13; margin-top: -4rem; }
-    .pc-4 { grid-column: 1 / 4; margin-top: -3rem; }
-    .pc-5 { grid-column: 4 / 9; margin-top: 2rem; }
-    .pc-6 { grid-column: 9 / 13; margin-top: -2rem; }
+    .pc-2 { grid-column: 6 / 10; margin-top: 5rem; }
+    .pc-3 { grid-column: 9 / 13; margin-top: -2rem; }
+    .pc-4 { grid-column: 2 / 8; margin-top: 4rem; }
 
     .projects-note {
       text-align: right;
@@ -895,10 +893,15 @@
     <div class="nav-logo">D&thinsp;/&thinsp;C</div>
     <div class="nav-loc" id="navTime">KISSIMMEE, FL</div>
     <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+        <span class="lang-sep">|</span>
+        <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+      </div>
       <ul class="nav-links-row">
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#about" data-i18n="nav-about">About</a></li>
+        <li><a href="#projects" data-i18n="nav-projects">Projects</a></li>
+        <li><a href="#contact" data-i18n="nav-contact">Contact</a></li>
       </ul>
       <div class="nav-dot"></div>
     </div>
@@ -907,101 +910,31 @@
   <!-- ───────── HERO ───────── -->
   <section id="hero">
     <div class="hero-inner">
-      <p class="hero-tag g-fade">Portfolio 2026</p>
+      <p class="hero-tag g-fade" data-i18n="hero-tag">Portfolio 2026</p>
       <h1 class="hero-name">
         <span class="row-1 g-up">Daniel</span>
         <span class="row-2 g-up" style="animation-delay:.1s">Cantor</span>
       </h1>
       <div class="hero-bottom g-fade">
-        <p class="hero-desc">Digital Marketing Strategist &amp; Growth Specialist. 6+ years turning data into measurable growth &mdash; paid media, SEO, and AI automation that actually scales.</p>
+        <p class="hero-desc" data-i18n="hero-desc">Digital Marketing Strategist &amp; Growth Specialist. 6+ years turning data into measurable growth &mdash; paid media, SEO, and AI automation that actually scales.</p>
         <div class="hero-actions">
-          <a href="#projects" class="pill-btn pill-dark">View Projects &rarr;</a>
-          <a href="#contact" class="pill-btn pill-light">Get in Touch</a>
+          <a href="#projects" class="pill-btn pill-dark" data-i18n="hero-btn1">View Projects &rarr;</a>
+          <a href="#contact" class="pill-btn pill-light" data-i18n="hero-btn2">Get in Touch</a>
         </div>
       </div>
     </div>
-    <div class="hero-bio-float g-fade">
-      HI, I'M DANIEL! A DIGITAL MARKETING<br />STRATEGIST &amp; GROWTH SPECIALIST<br />BASED IN KISSIMMEE, FL.
-    </div>
+    <div class="hero-bio-float g-fade" data-i18n="hero-float">HI, I'M DANIEL! A DIGITAL MARKETING<br />STRATEGIST &amp; GROWTH SPECIALIST<br />BASED IN KISSIMMEE, FL.</div>
     <div class="scroll-indicator g-fade">
       <div class="scroll-word">Scroll</div>
       <div class="scroll-bar"></div>
     </div>
   </section>
 
-  <!-- ───────── PROJECTS ───────── -->
-  <section class="sec" id="projects">
-    <div class="sec-inner">
-      <div class="projects-header g-up">
-        <div>
-          <div class="sec-label">03 / Projects</div>
-          <h2 class="projects-title">Featured<br /><em>projects</em></h2>
-        </div>
-        <div class="projects-years">
-          2018<br />/<br />2025
-        </div>
-      </div>
-
-      <div class="circles-grid">
-
-        <!-- C&G Audit — large img circle -->
-        <a href="https://cg-audit.onrender.com" target="_blank" class="proj-circle img-circle pc-1 g-up">
-          <div class="grad-circle grad-audit">&#x1F50D;</div>
-          <span class="dot-accent tl"></span>
-        </a>
-
-        <!-- n8n Automation — img circle -->
-        <a href="https://cg-audit.onrender.com" target="_blank" class="proj-circle img-circle pc-2 g-up" style="animation-delay:.1s">
-          <div class="logo-wrap" style="background:linear-gradient(145deg,#1a0a00,#b94040,#ff6d5a)">
-            <svg viewBox="0 0 160 80" xmlns="http://www.w3.org/2000/svg" style="width:65%;height:auto">
-              <text x="80" y="62" text-anchor="middle" font-family="Arial Black,sans-serif" font-weight="900" font-size="64" fill="white">n8n</text>
-            </svg>
-          </div>
-          <span class="dot-accent br"></span>
-        </a>
-
-        <!-- Soul Candle — small img circle -->
-        <a href="https://ytydxn-he.myshopify.com" target="_blank" class="proj-circle img-circle pc-3 g-up" style="animation-delay:.2s">
-          <div class="logo-wrap" style="background:white">
-            <img src="download.png" alt="Soul Candle" style="width:92%;height:92%;object-fit:contain;" />
-          </div>
-        </a>
-
-        <!-- Red Arrow Boutique Hotel — text circle -->
-        <a href="https://www.wyndhamhotels.com/travelodge/montrose-colorado/red-arrow-inn-and-suites-a-travelodge/overview" target="_blank" class="proj-circle txt-circle pc-4 g-up" style="animation-delay:.15s">
-          <div class="proj-num">N. 04</div>
-          <div class="proj-name">Red Arrow<br />Boutique Hotel</div>
-          <div class="proj-year">Y. 2024</div>
-        </a>
-
-        <!-- CG Audit text circle -->
-        <a href="https://cg-audit.onrender.com" target="_blank" class="proj-circle txt-circle pc-5 g-up" style="animation-delay:.05s">
-          <span class="dot-accent tl"></span>
-          <div class="proj-num">N. 01</div>
-          <div class="proj-name">C&amp;G<br />Audit</div>
-          <div class="proj-year">Y. 2024</div>
-        </a>
-
-        <!-- Red Arrow Boutique Hotel — img circle -->
-        <a href="https://www.wyndhamhotels.com/travelodge/montrose-colorado/red-arrow-inn-and-suites-a-travelodge/overview" target="_blank" class="proj-circle img-circle pc-6 g-up" style="animation-delay:.25s">
-          <div class="logo-wrap" style="background:white;padding:0.75rem">
-            <img src="download.jpg" alt="Red Arrow Boutique Hotel" style="width:90%;height:90%;object-fit:contain;" />
-          </div>
-        </a>
-
-      </div>
-
-      <div class="projects-note g-up">
-        A FEATURED SELECTION.<br />WORK FROM THE LAST 6 YEARS
-      </div>
-    </div>
-  </section>
-
   <!-- ───────── ABOUT ───────── -->
   <section class="sec" id="about">
     <div class="sec-inner">
-      <div class="sec-label g-up">01 / About</div>
-      <h2 class="about-title g-up">About<br /><em>Daniel</em></h2>
+      <div class="sec-label g-up" data-i18n="about-label">01 / About</div>
+      <h2 class="about-title g-up" data-i18n="about-title">About<br /><em>Daniel</em></h2>
 
       <div class="profile-photo-row g-up">
         <div class="profile-photo">
@@ -1063,10 +996,71 @@
         </div>
       </div>
 
-      <!-- Experience -->
+
+    </div>
+  </section>
+
+  <!-- ───────── PROJECTS ───────── -->
+  <section class="sec" id="projects">
+    <div class="sec-inner">
+      <div class="projects-header g-up">
+        <div>
+          <div class="sec-label" data-i18n="projects-label">03 / Projects</div>
+          <h2 class="projects-title" data-i18n="projects-title">Featured<br /><em>projects</em></h2>
+        </div>
+        <div class="projects-years">
+          2018<br />/<br />2025
+        </div>
+      </div>
+
+      <div class="circles-grid">
+
+        <!-- C&G Audit — large img circle (blue gradient + text) -->
+        <a href="https://cg-audit.onrender.com" target="_blank" class="proj-circle img-circle pc-1 g-up">
+          <div class="logo-wrap" style="background:linear-gradient(145deg,#0f172a 0%,#1e3a5f 55%,#0ea5e9 100%);flex-direction:column;gap:0.3rem;">
+            <div style="font-family:'DM Sans',sans-serif;font-weight:900;font-size:clamp(1.4rem,3.5vw,3.8rem);letter-spacing:0.04em;color:white;line-height:1;">CG</div>
+            <div style="font-family:'DM Sans',sans-serif;font-weight:700;font-size:clamp(0.6rem,1.4vw,1.4rem);letter-spacing:0.25em;color:rgba(255,255,255,0.75);">AUDIT</div>
+          </div>
+          <span class="dot-accent tl"></span>
+        </a>
+
+        <!-- n8n Automation — img circle -->
+        <a href="https://cg-audit.onrender.com" target="_blank" class="proj-circle img-circle pc-2 g-up" style="animation-delay:.1s">
+          <div class="logo-wrap" style="background:white;padding:1.2rem">
+            <img src="n8n-logo-png-white-background-2-2.png" alt="n8n Automation" style="width:88%;height:88%;object-fit:contain;" />
+          </div>
+          <span class="dot-accent br"></span>
+        </a>
+
+        <!-- Soul Candle — small img circle -->
+        <a href="https://ytydxn-he.myshopify.com" target="_blank" class="proj-circle img-circle pc-3 g-up" style="animation-delay:.2s">
+          <div class="logo-wrap" style="background:white">
+            <img src="download.png" alt="Soul Candle" style="width:92%;height:92%;object-fit:contain;" />
+          </div>
+        </a>
+
+        <!-- Red Arrow Boutique Hotel — img circle -->
+        <a href="https://www.wyndhamhotels.com/travelodge/montrose-colorado/red-arrow-inn-and-suites-a-travelodge/overview" target="_blank" class="proj-circle img-circle pc-4 g-up" style="animation-delay:.15s">
+          <div class="logo-wrap" style="background:white;padding:0.75rem">
+            <img src="download.jpg" alt="Red Arrow Boutique Hotel" style="width:90%;height:90%;object-fit:contain;" />
+          </div>
+        </a>
+
+      </div>
+
+      <div class="projects-note g-up">
+        <span data-i18n="projects-note">A FEATURED SELECTION.<br />WORK FROM THE LAST 6 YEARS</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── EXPERIENCE ───────── -->
+  <section class="sec" id="experience">
+    <div class="sec-inner">
       <div class="exp-section">
-        <div class="exp-section-title g-up">02 / Experience</div>
+        <div class="exp-section-title g-up" data-i18n="exp-label">02 / Experience</div>
         <div class="exp-list">
+
 
           <div class="exp-row g-up">
             <div class="exp-date">May 2024 &mdash;<br />Apr 2025</div>
@@ -1112,7 +1106,6 @@
               <div class="exp-company">Independent Projects</div>
               <ul class="exp-pts">
                 <li>Soul Candle: End-to-end Shopify — UX/UI, SEO, Meta &amp; Google Ads full setup.</li>
-                <li>Forex sin tanta raya: Instagram lead acquisition through educational content strategy.</li>
               </ul>
             </div>
             <div class="exp-tags">
@@ -1124,6 +1117,8 @@
         </div>
       </div>
 
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1231,7 +1226,7 @@
 
   <!-- Social bar -->
   <div class="social-bar">
-    <div class="social-bar-label">Find me on</div>
+    <div class="social-bar-label" data-i18n="find-me">Find me on</div>
     <div class="social-icons">
 
       <!-- LinkedIn -->
@@ -1245,7 +1240,7 @@
       </a>
 
       <!-- Instagram -->
-      <a href="https://instagram.com/" target="_blank" class="soc-btn">
+      <a href="https://www.instagram.com/soydandandan/" target="_blank" class="soc-btn">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="#555" stroke-width="2" fill="none"/>
           <circle cx="12" cy="12" r="4" stroke="#555" stroke-width="2" fill="none"/>
@@ -1255,27 +1250,11 @@
       </a>
 
       <!-- TikTok -->
-      <a href="https://tiktok.com/" target="_blank" class="soc-btn">
+      <a href="https://www.tiktok.com/@soydandandan6?lang=es-419" target="_blank" class="soc-btn">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z" fill="#555"/>
         </svg>
         TikTok
-      </a>
-
-      <!-- GitHub -->
-      <a href="https://github.com/Decs2691" target="_blank" class="soc-btn">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" fill="#555"/>
-        </svg>
-        GitHub
-      </a>
-
-      <!-- Canva Portfolio -->
-      <a href="https://decs2026.my.canva.site" target="_blank" class="soc-btn">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Portfolio
       </a>
 
     </div>
@@ -1402,6 +1381,60 @@
         }
       });
     });
+
+    /* ── Language toggle ── */
+    const i18n = {
+      en: {
+        'nav-about':       'About',
+        'nav-projects':    'Projects',
+        'nav-contact':     'Contact',
+        'hero-tag':        'Portfolio 2026',
+        'hero-desc':       'Digital Marketing Strategist &amp; Growth Specialist. 6+ years turning data into measurable growth &mdash; paid media, SEO, and AI automation that actually scales.',
+        'hero-btn1':       'View Projects &rarr;',
+        'hero-btn2':       'Get in Touch',
+        'hero-float':      'HI, I'M DANIEL! A DIGITAL MARKETING<br />STRATEGIST &amp; GROWTH SPECIALIST<br />BASED IN KISSIMMEE, FL.',
+        'about-label':     '01 / About',
+        'about-title':     'About<br /><em>Daniel</em>',
+        'projects-label':  '03 / Projects',
+        'projects-title':  'Featured<br /><em>projects</em>',
+        'projects-note':   'A FEATURED SELECTION.<br />WORK FROM THE LAST 6 YEARS',
+        'exp-label':       '02 / Experience',
+        'find-me':         'Find me on',
+        'foot-copy':       '&copy; 2026 Daniel Cantor &middot; Digital Marketing Strategist',
+      },
+      es: {
+        'nav-about':       'Sobre m&iacute;',
+        'nav-projects':    'Proyectos',
+        'nav-contact':     'Contacto',
+        'hero-tag':        'Portfolio 2026',
+        'hero-desc':       'Estratega de Marketing Digital y Especialista en Crecimiento. +6 a&ntilde;os convirtiendo datos en resultados reales &mdash; pauta digital, SEO y automatizaci&oacute;n con IA que escala de verdad.',
+        'hero-btn1':       'Ver Proyectos &rarr;',
+        'hero-btn2':       'Cont&aacute;ctame',
+        'hero-float':      '&iexcl;HOLA, SOY DANIEL! ESTRATEGA DE MARKETING<br />DIGITAL Y ESPECIALISTA EN CRECIMIENTO<br />BASADO EN KISSIMMEE, FL.',
+        'about-label':     '01 / Sobre m&iacute;',
+        'about-title':     'Sobre<br /><em>Daniel</em>',
+        'projects-label':  '03 / Proyectos',
+        'projects-title':  'Proyectos<br /><em>destacados</em>',
+        'projects-note':   'UNA SELECCI&Oacute;N DESTACADA.<br />TRABAJO DE LOS &Uacute;LTIMOS 6 A&Ntilde;OS',
+        'exp-label':       '02 / Experiencia',
+        'find-me':         'Encu&eacute;ntrame en',
+        'foot-copy':       '&copy; 2026 Daniel Cantor &middot; Estratega de Marketing Digital',
+      }
+    };
+
+    let currentLang = 'en';
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (i18n[lang] && i18n[lang][key]) {
+          el.innerHTML = i18n[lang][key];
+        }
+      });
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+    }
   </script>
 </body>
 </html>

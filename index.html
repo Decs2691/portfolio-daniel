@@ -5,6 +5,15 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Daniel Cantor — Digital Marketing Strategist</title>
+  <meta name="description" content="Daniel Cantor — Digital Marketing Strategist con 6+ años en paid media, SEO y automatización con IA. Basado en Florida, EAD Holder. Disponible para roles remotos." />
+  <meta property="og:title" content="Daniel Cantor — Digital Marketing Strategist" />
+  <meta property="og:description" content="6+ años generando crecimiento medible con Meta Ads, Google Ads, SEO, CRM y automatización con IA. Disponible para roles remotos." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://portfolio-daniel-kxgb.onrender.com" />
+  <meta property="og:image" content="https://portfolio-daniel-kxgb.onrender.com/IMG_1711.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Daniel Cantor — Digital Marketing Strategist" />
+  <meta name="twitter:description" content="6+ años generando crecimiento medible con Meta Ads, Google Ads, SEO, CRM y automatización con IA." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -755,6 +764,42 @@
     .c-arr { font-size: 0.85rem; transition: transform .4s cubic-bezier(.43,.195,.02,1); }
     .c-link:hover .c-arr { transform: rotate(45deg); }
 
+    /* ─── Contact form ─── */
+    .contact-form { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.85rem; }
+    .cf-field { display: flex; flex-direction: column; gap: 0.35rem; }
+    .cf-label { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: #999; }
+    .cf-input, .cf-textarea {
+      background: rgba(237,233,227,0.5);
+      border: 1px solid rgba(20,20,20,0.14);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      color: #141414;
+      outline: none;
+      transition: border-color .25s;
+      width: 100%;
+    }
+    .cf-input:focus, .cf-textarea:focus { border-color: #c0623a; }
+    .cf-textarea { resize: vertical; min-height: 110px; }
+    .cf-btn {
+      margin-top: 0.4rem;
+      background: #141414;
+      color: #ede9e3;
+      border: none;
+      border-radius: 10px;
+      padding: 0.9rem 1.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: none;
+      transition: background .25s, transform .25s;
+      align-self: flex-start;
+    }
+    .cf-btn:hover { background: #c0623a; transform: translateY(-2px); }
+    .cf-success { font-size: 0.85rem; color: #c0623a; margin-top: 0.5rem; display: none; }
+
     .info-block { display: flex; flex-direction: column; }
     .info-r {
       display: flex;
@@ -1217,6 +1262,22 @@
               <span class="c-arr">&#x2197;</span>
             </a>
           </div>
+          <form class="contact-form" id="contact-form" onsubmit="handleForm(event)">
+            <div class="cf-field">
+              <label class="cf-label" for="cf-name" data-i18n="cf-name">Your name</label>
+              <input class="cf-input" id="cf-name" type="text" placeholder="John Smith" required />
+            </div>
+            <div class="cf-field">
+              <label class="cf-label" for="cf-email" data-i18n="cf-email">Email</label>
+              <input class="cf-input" id="cf-email" type="email" placeholder="john@company.com" required />
+            </div>
+            <div class="cf-field">
+              <label class="cf-label" for="cf-msg" data-i18n="cf-msg">Message</label>
+              <textarea class="cf-textarea" id="cf-msg" placeholder="Tell me about your project..." required></textarea>
+            </div>
+            <button class="cf-btn" type="submit" data-i18n="cf-send">Send message →</button>
+            <p class="cf-success" id="cf-success" data-i18n="cf-ok">Message sent! I'll get back to you soon.</p>
+          </form>
         </div>
         <div class="info-block g-up" style="animation-delay:.15s">
           <div class="info-r"><span class="info-l" data-i18n="info-location-lbl">Location</span><span>Kissimmee, FL, USA</span></div>
@@ -1419,6 +1480,7 @@
         'contact-desc':'Open to remote digital marketing, growth, or operations roles. No sponsorship required &mdash; EAD holder based in Florida.',
         'info-location-lbl':'Location','info-phone-lbl':'Phone','info-status-lbl':'Status','info-langs-lbl':'Languages','info-edu-lbl':'Education','info-certs-lbl':'Certs',
         'find-me':'Find me on','foot-copy':'&copy; 2026 Daniel Cantor &middot; Digital Marketing Strategist',
+        'cf-name':'Your name','cf-email':'Email','cf-msg':'Message','cf-send':'Send message →','cf-ok':'Message sent! I\'ll get back to you soon.',
       },
       es: {
         'nav-about':'Sobre m&iacute;','nav-projects':'Proyectos','nav-contact':'Contacto',
@@ -1449,6 +1511,7 @@
         'contact-desc':'Disponible para roles remotos en marketing digital, crecimiento u operaciones. Sin necesidad de patrocinio &mdash; EAD Holder en Florida.',
         'info-location-lbl':'Ubicaci&oacute;n','info-phone-lbl':'Tel&eacute;fono','info-status-lbl':'Estado','info-langs-lbl':'Idiomas','info-edu-lbl':'Educaci&oacute;n','info-certs-lbl':'Certificaciones',
         'find-me':'Encu&eacute;ntrame en','foot-copy':'&copy; 2026 Daniel Cantor &middot; Estratega de Marketing Digital',
+        'cf-name':'Tu nombre','cf-email':'Email','cf-msg':'Mensaje','cf-send':'Enviar mensaje →','cf-ok':'¡Mensaje enviado! Te responder&eacute; pronto.',
       }
     };
 
@@ -1464,6 +1527,19 @@
       });
       document.getElementById('btn-en').classList.toggle('active', lang === 'en');
       document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+    }
+
+    /* ── Contact form handler ── */
+    function handleForm(e) {
+      e.preventDefault();
+      const name    = document.getElementById('cf-name').value;
+      const email   = document.getElementById('cf-email').value;
+      const msg     = document.getElementById('cf-msg').value;
+      const subject = encodeURIComponent('Portfolio inquiry from ' + name);
+      const body    = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + msg);
+      window.location.href = 'mailto:emprender2691@gmail.com?subject=' + subject + '&body=' + body;
+      document.getElementById('cf-success').style.display = 'block';
+      e.target.reset();
     }
   </script>
 </body>

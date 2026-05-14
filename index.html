@@ -1149,7 +1149,8 @@
         <!-- C&G Audit — large img circle (blue gradient + text) -->
         <a href="https://cg-audit.onrender.com" target="_blank" class="proj-circle img-circle pc-1 g-up"
            data-proj-name="C&amp;G Audit — SaaS"
-           data-proj-pts='["Built with React &amp; Claude API","Scores websites /100 across 6 marketing pillars","Covers SEO, speed, content, conversion &amp; social","Live product — used by real businesses"]'>
+           data-proj-pts='["Built with React &amp; Claude API","Scores websites /100 across 6 marketing pillars","Covers SEO, speed, content, conversion &amp; social","Live product — used by real businesses"]'
+           data-proj-pts-es='["Desarrollado con React y Claude API","Puntúa sitios /100 en 6 pilares de marketing","Cubre SEO, velocidad, contenido, conversión y redes","Producto real — usado por negocios reales"]'>
           <div class="logo-wrap" style="background:linear-gradient(145deg,#0f172a 0%,#1e3a5f 55%,#0ea5e9 100%);flex-direction:column;gap:0.3rem;">
             <div style="font-family:'DM Sans',sans-serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,5.5rem);letter-spacing:0.04em;color:#f0b429;line-height:1;">CG</div>
             <div style="font-family:'DM Sans',sans-serif;font-weight:700;font-size:clamp(1rem,2.2vw,2.2rem);letter-spacing:0.25em;color:#d4920f;">AUDIT</div>
@@ -1160,7 +1161,8 @@
         <!-- Soul Candle — small img circle -->
         <a href="https://ytydxn-he.myshopify.com" target="_blank" class="proj-circle img-circle pc-2 g-up" style="animation-delay:.1s"
            data-proj-name="Soul Candle — Shopify"
-           data-proj-pts='["End-to-end Shopify store development","UX/UI design + full SEO setup","Meta Ads &amp; Google Ads with pixel &amp; catalog","Payment integration &amp; conversion optimization"]'>
+           data-proj-pts='["End-to-end Shopify store development","UX/UI design + full SEO setup","Meta Ads &amp; Google Ads with pixel &amp; catalog","Payment integration &amp; conversion optimization"]'
+           data-proj-pts-es='["Desarrollo completo de tienda Shopify","Diseño UX/UI + SEO completo","Meta Ads y Google Ads con pixel y catálogo","Integración de pagos y optimización de conversión"]'>
           <div class="logo-wrap" style="background:white">
             <img src="download.png" alt="Soul Candle" style="width:92%;height:92%;object-fit:contain;" />
           </div>
@@ -1169,7 +1171,8 @@
         <!-- Red Arrow Boutique Hotel — img circle -->
         <a href="https://www.wyndhamhotels.com/travelodge/montrose-colorado/red-arrow-inn-and-suites-a-travelodge/overview" target="_blank" class="proj-circle img-circle pc-3 g-up" style="animation-delay:.2s"
            data-proj-name="Red Arrow Inn — Hotel Marketing"
-           data-proj-pts='["+25% direct bookings &amp; +30% web traffic","18% conversion gain, 12% cost reduction","Social media from zero: 40% follower growth","35% engagement increase in 3 months"]'>
+           data-proj-pts='["+25% direct bookings &amp; +30% web traffic","18% conversion gain, 12% cost reduction","Social media from zero: 40% follower growth","35% engagement increase in 3 months"]'
+           data-proj-pts-es='["+25% reservas directas y +30% tráfico web","+18% conversión, -12% reducción de costos","Redes desde cero: 40% crecimiento de seguidores","35% aumento de engagement en 3 meses"]'>
           <div class="logo-wrap" style="background:white;padding:0.75rem">
             <img src="download.jpg" alt="Red Arrow Boutique Hotel" style="width:90%;height:90%;object-fit:contain;" />
           </div>
@@ -1630,7 +1633,10 @@
     document.querySelectorAll('.proj-circle[data-proj-name]').forEach(circle => {
       circle.addEventListener('mouseenter', () => {
         const name = circle.getAttribute('data-proj-name');
-        const pts = JSON.parse(circle.getAttribute('data-proj-pts'));
+        const ptsAttr = currentLang === 'es'
+          ? (circle.getAttribute('data-proj-pts-es') || circle.getAttribute('data-proj-pts'))
+          : circle.getAttribute('data-proj-pts');
+        const pts = JSON.parse(ptsAttr);
         ptName.innerHTML = name;
         ptList.innerHTML = pts.map(p => `<li>${p}</li>`).join('');
         projTooltip.classList.add('visible');

@@ -911,6 +911,61 @@
       color: #aaa;
     }
 
+    /* ─── Project tooltip ─── */
+    #proj-tooltip {
+      position: fixed;
+      z-index: 400;
+      pointer-events: none;
+      background: rgba(237,233,227,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(20,20,20,0.12);
+      border-radius: 14px;
+      padding: 1.1rem 1.4rem;
+      min-width: 220px;
+      max-width: 280px;
+      opacity: 0;
+      transform: translateY(6px) scale(0.97);
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      box-shadow: 0 12px 40px rgba(20,20,20,0.1);
+    }
+    #proj-tooltip.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .pt-name {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #c0623a;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(20,20,20,0.1);
+    }
+    .pt-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .pt-list li {
+      font-size: 0.78rem;
+      color: #555;
+      line-height: 1.45;
+      padding-left: 1rem;
+      position: relative;
+    }
+    .pt-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      font-size: 0.68rem;
+      color: #c0623a;
+    }
+
     /* ─── GSAP hidden ─── */
     .g-fade { opacity: 0; }
     .g-up   { opacity: 0; transform: translateY(22px); }
@@ -1083,10 +1138,18 @@
         </div>
       </div>
 
+      <!-- Floating project tooltip -->
+      <div id="proj-tooltip" aria-hidden="true">
+        <div class="pt-name"></div>
+        <ul class="pt-list"></ul>
+      </div>
+
       <div class="circles-grid">
 
         <!-- C&G Audit — large img circle (blue gradient + text) -->
-        <a href="https://cg-audit.onrender.com" target="_blank" class="proj-circle img-circle pc-1 g-up">
+        <a href="https://cg-audit.onrender.com" target="_blank" class="proj-circle img-circle pc-1 g-up"
+           data-proj-name="C&amp;G Audit — SaaS"
+           data-proj-pts='["Built with React &amp; Claude API","Scores websites /100 across 6 marketing pillars","Covers SEO, speed, content, conversion &amp; social","Live product — used by real businesses"]'>
           <div class="logo-wrap" style="background:linear-gradient(145deg,#0f172a 0%,#1e3a5f 55%,#0ea5e9 100%);flex-direction:column;gap:0.3rem;">
             <div style="font-family:'DM Sans',sans-serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,5.5rem);letter-spacing:0.04em;color:#f0b429;line-height:1;">CG</div>
             <div style="font-family:'DM Sans',sans-serif;font-weight:700;font-size:clamp(1rem,2.2vw,2.2rem);letter-spacing:0.25em;color:#d4920f;">AUDIT</div>
@@ -1095,14 +1158,18 @@
         </a>
 
         <!-- Soul Candle — small img circle -->
-        <a href="https://ytydxn-he.myshopify.com" target="_blank" class="proj-circle img-circle pc-2 g-up" style="animation-delay:.1s">
+        <a href="https://ytydxn-he.myshopify.com" target="_blank" class="proj-circle img-circle pc-2 g-up" style="animation-delay:.1s"
+           data-proj-name="Soul Candle — Shopify"
+           data-proj-pts='["End-to-end Shopify store development","UX/UI design + full SEO setup","Meta Ads &amp; Google Ads with pixel &amp; catalog","Payment integration &amp; conversion optimization"]'>
           <div class="logo-wrap" style="background:white">
             <img src="download.png" alt="Soul Candle" style="width:92%;height:92%;object-fit:contain;" />
           </div>
         </a>
 
         <!-- Red Arrow Boutique Hotel — img circle -->
-        <a href="https://www.wyndhamhotels.com/travelodge/montrose-colorado/red-arrow-inn-and-suites-a-travelodge/overview" target="_blank" class="proj-circle img-circle pc-3 g-up" style="animation-delay:.2s">
+        <a href="https://www.wyndhamhotels.com/travelodge/montrose-colorado/red-arrow-inn-and-suites-a-travelodge/overview" target="_blank" class="proj-circle img-circle pc-3 g-up" style="animation-delay:.2s"
+           data-proj-name="Red Arrow Inn — Hotel Marketing"
+           data-proj-pts='["+25% direct bookings &amp; +30% web traffic","18% conversion gain, 12% cost reduction","Social media from zero: 40% follower growth","35% engagement increase in 3 months"]'>
           <div class="logo-wrap" style="background:white;padding:0.75rem">
             <img src="download.jpg" alt="Red Arrow Boutique Hotel" style="width:90%;height:90%;object-fit:contain;" />
           </div>
@@ -1553,6 +1620,46 @@
       document.getElementById('btn-en').classList.toggle('active', lang === 'en');
       document.getElementById('btn-es').classList.toggle('active', lang === 'es');
     }
+
+    /* ── Project tooltip ── */
+    const projTooltip = document.getElementById('proj-tooltip');
+    const ptName = projTooltip.querySelector('.pt-name');
+    const ptList = projTooltip.querySelector('.pt-list');
+    let tooltipRAF;
+
+    document.querySelectorAll('.proj-circle[data-proj-name]').forEach(circle => {
+      circle.addEventListener('mouseenter', () => {
+        const name = circle.getAttribute('data-proj-name');
+        const pts = JSON.parse(circle.getAttribute('data-proj-pts'));
+        ptName.innerHTML = name;
+        ptList.innerHTML = pts.map(p => `<li>${p}</li>`).join('');
+        projTooltip.classList.add('visible');
+      });
+
+      circle.addEventListener('mousemove', e => {
+        cancelAnimationFrame(tooltipRAF);
+        tooltipRAF = requestAnimationFrame(() => {
+          const tw = projTooltip.offsetWidth;
+          const th = projTooltip.offsetHeight;
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+          const offset = 20;
+          let x = e.clientX + offset;
+          let y = e.clientY - th / 2;
+          // Flip left if too close to right edge
+          if (x + tw > vw - 16) x = e.clientX - tw - offset;
+          // Clamp vertically
+          if (y < 16) y = 16;
+          if (y + th > vh - 16) y = vh - th - 16;
+          projTooltip.style.left = x + 'px';
+          projTooltip.style.top  = y + 'px';
+        });
+      });
+
+      circle.addEventListener('mouseleave', () => {
+        projTooltip.classList.remove('visible');
+      });
+    });
 
     /* ── Contact form handler ── */
     function handleForm(e) {

@@ -1265,15 +1265,15 @@
           <form class="contact-form" id="contact-form" onsubmit="handleForm(event)">
             <div class="cf-field">
               <label class="cf-label" for="cf-name" data-i18n="cf-name">Your name</label>
-              <input class="cf-input" id="cf-name" type="text" placeholder="John Smith" required />
+              <input class="cf-input" id="cf-name" name="name" type="text" placeholder="John Smith" required />
             </div>
             <div class="cf-field">
               <label class="cf-label" for="cf-email" data-i18n="cf-email">Email</label>
-              <input class="cf-input" id="cf-email" type="email" placeholder="john@company.com" required />
+              <input class="cf-input" id="cf-email" name="email" type="email" placeholder="john@company.com" required />
             </div>
             <div class="cf-field">
               <label class="cf-label" for="cf-msg" data-i18n="cf-msg">Message</label>
-              <textarea class="cf-textarea" id="cf-msg" placeholder="Tell me about your project..." required></textarea>
+              <textarea class="cf-textarea" id="cf-msg" name="message" placeholder="Tell me about your project..." required></textarea>
             </div>
             <button class="cf-btn" type="submit" data-i18n="cf-send">Send message →</button>
             <p class="cf-success" id="cf-success" data-i18n="cf-ok">Message sent! I'll get back to you soon.</p>
@@ -1532,14 +1532,18 @@
     /* ── Contact form handler ── */
     function handleForm(e) {
       e.preventDefault();
-      const name    = document.getElementById('cf-name').value;
-      const email   = document.getElementById('cf-email').value;
-      const msg     = document.getElementById('cf-msg').value;
-      const subject = encodeURIComponent('Portfolio inquiry from ' + name);
-      const body    = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + msg);
-      window.location.href = 'mailto:emprender2691@gmail.com?subject=' + subject + '&body=' + body;
-      document.getElementById('cf-success').style.display = 'block';
-      e.target.reset();
+      const form = e.target;
+      const data = new FormData(form);
+      fetch('https://formspree.io/f/mbdwegvg', {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      }).then(function(res) {
+        if (res.ok) {
+          document.getElementById('cf-success').style.display = 'block';
+          form.reset();
+        }
+      });
     }
   </script>
 </body>
